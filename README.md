@@ -39,15 +39,18 @@ O código, quando a variável não existe, usa o placeholder `https://marktech.e
 2. Para um teste local, copie `.env.example` para `.env` (o `.env` não entra no Git) e troque o placeholder só na sua máquina.
 3. Rode o build de novo.
 
-O alvo é produção quando acontece qualquer um destes casos:
+O deploy previsto é a integração Git da Vercel. Ela define `VERCEL_ENV=production` no build de produção. Este repositório não faz o deploy.
 
-- `VERCEL_ENV=production`, que a infraestrutura da Vercel define no build de produção.
+O alvo é produção, e o placeholder ou a URL vazia são recusados, quando acontece qualquer um destes casos:
+
+- `VERCEL_ENV=production`.
 - `VERCEL_TARGET_ENV=production`.
-- Um processo ancestral foi chamado com `--prod` ou `--environment production`.
+- `VERCEL=1` com `VERCEL_ENV` vazio. O `vercel build` local, com ou sem `--prod`, faz exatamente isso em Linux, Windows e macOS: define `VERCEL=1` e não define `VERCEL_ENV`. O guard não depende do sistema operacional.
+- No Linux, um processo ancestral chamado com `--prod` ou `--environment production`.
 
-`vercel build --prod`, na máquina local, não define `VERCEL_ENV` nem `VERCEL_TARGET_ENV`. A CLI avisa que as variáveis de sistema não existem fora da Vercel. Ela define `VERCEL=1` e, se o arquivo existir, carrega `.vercel/.env.production.local`. O `prebuild` e o `astro.config` olham a linha de comando dos processos ancestrais para reconhecer `--prod`. Com o placeholder, esse build falha e não deixa um prebuild que `vercel deploy --prebuilt --prod` possa publicar. O deploy prebuilt em si não reconstrói o site.
+`npm run build` e `npm run dev` sem a variável `VERCEL` continuam aceitando o placeholder. Preview na infraestrutura da Vercel (`VERCEL_ENV=preview`) também.
 
-`npm run build` e `npm run dev` sem esses sinais continuam aceitando o placeholder. Preview (`VERCEL_ENV=preview`) também. Este repositório não faz o deploy.
+`vercel deploy --prebuilt` não reconstrói o site. Esse caminho só é suportado em Linux ou num CI em que o build já tenha rodado com um dos sinais acima. No Windows e no macOS, a leitura da linha de comando ancestral não existe; use a integração Git, ou exporte `VERCEL=1` sem `VERCEL_ENV` (ou `VERCEL_ENV=production`) na hora do build.
 
 ## Como publicar um artigo novo
 

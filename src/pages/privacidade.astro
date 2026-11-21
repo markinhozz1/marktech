@@ -33,7 +33,7 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
     <div class="prose">
       <h2>Controlador</h2>
       <p>
-        O controlador dos dados pessoais tratados por este site é Marcos, responsável pelo MarkTech. O contato para pedidos do titular é <a href={`mailto:${contactEmail}?subject=${encodeURIComponent('Privacidade MarkTech')}`}>{contactEmail}</a>. Não há encarregado nomeado nesta data. Se a nomeação passar a ser exigida, o contato do encarregado será incluído neste texto, com nova data de atualização.
+        O controlador dos dados pessoais tratados por este site é Marcos, responsável pelo MarkTech. Marcos também é o encarregado. Pedidos do titular e contato com o encarregado vão para <a href={`mailto:${contactEmail}?subject=${encodeURIComponent('Privacidade MarkTech')}`}>{contactEmail}</a>.
       </p>
       <p>
         Não publicamos endereço físico porque ele não faz parte do funcionamento deste site. O canal para exercer direitos é o e-mail acima.
@@ -52,14 +52,14 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
       <h2>Dados que ainda podem ser tratados</h2>
       <h3>E-mail que você envia</h3>
       <p>
-        Se você escrever para o e-mail de contato, Marcos recebe o endereço, o assunto e o que estiver na mensagem, inclusive anexos. Esses dados são usados para responder ao pedido e, se for uma correção, para revisar um tutorial. A base legal é o art. 7º, V, da Lei nº 13.709/2018 (LGPD): procedimento realizado a pedido do titular. Não peça, e não envie, senha, código de verificação ou arquivo de conversa.
+        Se você escrever para o e-mail de contato, Marcos recebe o endereço, o assunto e o que estiver na mensagem, inclusive anexos. Esses dados são usados para responder ao pedido e, se for uma correção, para revisar um tutorial. Não há contrato entre quem escreve e o MarkTech. A base legal é o art. 7º, IX, da Lei nº 13.709, de 14 de agosto de 2018: “quando necessário para atender aos interesses legítimos do controlador ou de terceiro, exceto no caso de prevalecerem direitos e liberdades fundamentais do titular que exijam a proteção dos dados pessoais”. O interesse é responder a quem procurou o site e corrigir o texto, só com o que a mensagem trouxer. Não peça, e não envie, senha, código de verificação ou arquivo de conversa.
       </p>
       <p>
         O e-mail fica na caixa usada para o contato pelo tempo necessário para responder e para guardar o histórico da correção, se ela mudar um artigo publicado. Você pode pedir a eliminação. Mensagens que precisem ser guardadas para exercer direitos ou cumprir dever legal podem ser mantidas só para essa finalidade.
       </p>
       <h3>Registros técnicos de hospedagem</h3>
       <p>
-        A hospedagem prevista é a Vercel, no plano Hobby. O MarkTech não copia log de acesso para um banco próprio. A base legal pretendida para usar a hospedagem e manter o site no ar é o legítimo interesse do art. 7º, IX, da LGPD.
+        A hospedagem prevista é a Vercel, no plano Hobby. O MarkTech não copia log de acesso para um banco próprio. A base legal para operar o site e consultar esses registros é a mesma do art. 7º, IX, transcrito acima: o necessário para atender ao interesse legítimo de manter o site no ar e seguro, sem prevalecer sobre direitos e liberdades fundamentais do titular.
       </p>
       <p>
         O prazo abaixo é o dos logs que o responsável pelo site consulta no painel da Vercel. Não descreve por quanto tempo a Vercel guarda registros como controladora dos próprios sistemas.
@@ -92,7 +92,7 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
         A base legal pretendida para cookie de publicidade e para identificador semelhante é o consentimento do art. 7º, I, da LGPD. O script do anúncio só deve ser carregado depois que uma plataforma de gestão de consentimento (CMP) registrar a escolha de quem visita o site. Enquanto não houver CMP instalada e esta política não for atualizada com a data nova, o script permanece desligado. Recusar o cookie de publicidade não pode bloquear a leitura dos artigos.
       </p>
       <p>
-        O Google pode tratar dados ligados ao anúncio como controlador próprio, segundo as regras dele. As páginas públicas usadas como referência são a <a href="https://policies.google.com/privacy">Política de Privacidade do Google</a>, as <a href="https://policies.google.com/technologies/ads">tecnologias de publicidade do Google</a> e as <a href="https://adssettings.google.com/">configurações de anúncios</a>. Parceiros do programa de anúncios também podem definir cookies de terceiros quando o anúncio estiver ativo. A lista vigente desses parceiros deve ser a que o Google publicar na conta do editor, não uma lista inventada neste texto.
+        O trecho a seguir só vale se o AdSense for ligado. Hoje ele não está. A página do Google sobre sites que usam os serviços dele, lida em 21 de novembro de 2026, diz que, num site com publicidade como o AdSense, o navegador envia ao Google o URL da página e o endereço IP, e que o Google pode gravar ou ler cookies. A mesma página diz que o Google usa essas informações para prestar os serviços, medir anúncios, proteger contra fraude e abuso e, conforme as configurações, personalizar anúncios. Diz ainda que a Política de Privacidade do Google explica os fundamentos legais em que o Google se baseia, por exemplo o consentimento ou interesses legítimos. Fonte: <a href="https://policies.google.com/technologies/partner-sites?hl=pt-BR">Como o Google usa informações de sites ou apps que utilizam nossos serviços</a>.
       </p>
       <p>
         O arquivo ads.txt só será publicado na raiz do site quando existir um identificador real de editor. Enquanto isso, o site não declara vendedor de anúncio.
@@ -120,10 +120,13 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
         <li>eliminação dos dados tratados com base no consentimento, quando essa base for a usada;</li>
         <li>informação das entidades públicas e privadas com as quais o controlador compartilhou dados;</li>
         <li>informação sobre a possibilidade de não fornecer consentimento e sobre as consequências da negativa;</li>
-        <li>revogação do consentimento, sem apagar a licitude do tratamento feito até a revogação.</li>
+        <li>revogação do consentimento, nos termos do § 5º do art. 8º da mesma lei.</li>
       </ul>
       <p>
-        O pedido vai para {contactEmail}, com o assunto “Privacidade MarkTech”. Podemos pedir só o mínimo para achar o pedido e não entregar dado de uma pessoa a outra. O prazo de resposta é o previsto na LGPD e nas normas da Autoridade Nacional de Proteção de Dados (ANPD). Você também pode apresentar reclamação à ANPD, em <a href="https://www.gov.br/anpd/pt-br">gov.br/anpd</a>.
+        O art. 18, § 2º, diz, com estas palavras: “O titular pode opor-se a tratamento realizado com fundamento em uma das hipóteses de dispensa de consentimento, em caso de descumprimento ao disposto nesta Lei.”
+      </p>
+      <p>
+        O pedido vai para {contactEmail}, com o assunto “Privacidade MarkTech”. Podemos pedir só o mínimo para achar o pedido e não entregar dado de uma pessoa a outra. O art. 19 da lei diz que a confirmação da existência ou o acesso aos dados são providenciados em formato simplificado, imediatamente, ou por declaração clara e completa, no prazo de até 15 dias, contado da data do requerimento. O art. 18, § 1º, assegura peticionar em relação aos seus dados contra o controlador perante a autoridade nacional. O canal público da autoridade está em <a href="https://www.gov.br/anpd/pt-br">gov.br/anpd</a>.
       </p>
 
       <h2>Crianças e adolescentes</h2>

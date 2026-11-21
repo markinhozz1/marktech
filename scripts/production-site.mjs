@@ -55,16 +55,18 @@ export function isPlaceholderSite(value) {
 }
 
 /**
- * Alvo de produção. Na infraestrutura da Vercel, VERCEL_ENV e
- * VERCEL_TARGET_ENV vêm preenchidos. O `vercel build --prod` local não define
- * essas duas: a CLI avisa que variáveis de sistema não existem fora da Vercel,
- * define VERCEL=1 e só carrega `.vercel/.env.<alvo>.local`. Por isso o guard
- * também reconhece `--prod` ou `--environment production` na linha de comando
- * de um processo ancestral, que é o formato do `vercel build --prod`.
+ * Alvo de produção.
+ * Na infraestrutura da Vercel, VERCEL_ENV e VERCEL_TARGET_ENV vêm preenchidos.
+ * O `vercel build` local, com ou sem --prod, define VERCEL=1 e não define
+ * VERCEL_ENV. Esse par vale em qualquer sistema operacional e recusa o
+ * placeholder. O `npm run build` comum não define VERCEL e não entra aqui.
+ * A leitura de `--prod` no processo ancestral só existe no Linux e cobre o
+ * caminho de prebuild quando a CLI não exporta VERCEL.
  */
 export function isProductionTarget() {
   if (process.env.VERCEL_ENV === 'production') return true;
   if (process.env.VERCEL_TARGET_ENV === 'production') return true;
+  if (process.env.VERCEL === '1' && !process.env.VERCEL_ENV) return true;
   return ancestorIndicatesProduction();
 }
 
