@@ -1,5 +1,5 @@
 ---
-import { contactEmail } from '../lib/site';
+import { adsEnabled, contactEmail } from '../lib/site';
 import { pageGraph } from '../lib/jsonld';
 import { requireSite } from '../lib/site';
 import Base from '../layouts/Base.astro';
@@ -62,12 +62,20 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
         Ao publicar o site, o provedor de hospedagem pode registrar dados técnicos de conexão, como endereço IP, data e hora, página pedida e identificador do navegador. Isso serve para entregar a página, limitar abuso e investigar falha de segurança. A base legal pretendida é o legítimo interesse do art. 7º, IX, da LGPD, restrito à operação e à segurança do site.
       </p>
       <p>
-        O MarkTech não opera esse registro num banco próprio e não fixa aqui um número de dias de guarda: o prazo é o do provedor. Antes da publicação em produção, o controlador deve confirmar esse prazo na documentação vigente da hospedagem e, se quiser um número público, atualizar esta página.
+        O MarkTech não guarda esses registros num banco próprio. A documentação da Vercel, lida em 21 de novembro de 2026, descreve os runtime logs consultáveis no painel: eles incluem invocações de funções e, entre os pedidos a arquivos estáticos, o pedido atendido a partir do cache. A mesma página publica estes prazos, conforme o plano: Hobby, 1 hora; Pro, 1 dia; Pro com Observability Plus, 30 dias; Enterprise, 3 dias; Enterprise com Observability Plus, 30 dias. A página de limites informa que o log de build de cada deployment fica guardado sem um prazo definido. Vale a linha do plano em que o site estiver publicado.
+      </p>
+      <p>
+        Fontes: <a href="https://vercel.com/docs/logs/runtime">Runtime Logs</a> e <a href="https://vercel.com/docs/limits">Limits</a>.
       </p>
 
       <h2>Cookies nesta versão</h2>
       <p>
-        Nenhum cookie de analytics, de rede social ou de publicidade é colocado pelo MarkTech nesta versão. O espaço com o texto “Espaço reservado para anúncio” é só um retângulo vazio no layout. Não há código do Google dentro dele.
+        Nenhum cookie de analytics, de rede social ou de publicidade é colocado pelo MarkTech nesta versão.
+        {
+          adsEnabled
+            ? ' O espaço com o texto “Espaço reservado para anúncio” é só um retângulo vazio no layout. Não há código do Google dentro dele.'
+            : ' Nenhum espaço de anúncio é exibido nas páginas, e não há código do Google carregado.'
+        }
       </p>
       <p>
         O navegador pode guardar um favorito ou um dado local por iniciativa sua. Isso não é um cookie definido por este site.
@@ -84,7 +92,7 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
         O Google pode tratar dados ligados ao anúncio como controlador próprio, segundo as regras dele. As páginas públicas usadas como referência são a <a href="https://policies.google.com/privacy">Política de Privacidade do Google</a>, as <a href="https://policies.google.com/technologies/ads">tecnologias de publicidade do Google</a> e as <a href="https://adssettings.google.com/">configurações de anúncios</a>. Parceiros do programa de anúncios também podem definir cookies de terceiros quando o anúncio estiver ativo. A lista vigente desses parceiros deve ser a que o Google publicar na conta do editor, não uma lista inventada neste texto.
       </p>
       <p>
-        O arquivo <code>ads.txt</code> só será publicado na raiz do site quando existir um identificador real de editor. Um modelo comentado, que não é servido como anúncio autorizado, está em <code>docs/ads.txt.example</code> no repositório. Ele não declara nenhuma conta.
+        O arquivo ads.txt só será publicado na raiz do site quando existir um identificador real de editor. Enquanto isso, o site não declara vendedor de anúncio.
       </p>
 
       <h2>Compartilhamento</h2>
@@ -92,7 +100,13 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
         O MarkTech não vende dado pessoal. Hoje, o compartilhamento previsto é com o provedor de hospedagem, que trata o registro técnico para entregar o site, e com o serviço de e-mail que recebe a mensagem que você envia. Se o anúncio for ativado, o Google e os parceiros de publicidade passam a receber os dados técnicos que os cookies de anúncio coletarem, na base do consentimento.
       </p>
       <p>
-        Hospedagem no exterior e, no futuro, publicidade de empresa estrangeira podem caracterizar transferência internacional. A hipótese do art. 33 da LGPD depende do mecanismo que o provedor oferecer no momento da contratação, por exemplo cláusulas-padrão ou outra garantia aceita pela lei. Esta página não afirma que um contrato específico já foi assinado. Confirmar esse mecanismo e registrá-lo aqui é pendência de pré-produção.
+        A entrega do site na Vercel pode ocorrer fora do Brasil. A página de compliance da Vercel informa que a região padrão das funções é os Estados Unidos e que a Vercel pode transferir dados para os Estados Unidos e para outros países em que ela ou seus prestadores tratem dados. A mesma página diz que a Vercel usa as cláusulas-padrão da União Europeia e o adendo do Reino Unido como mecanismo de transferência para fora do Espaço Econômico Europeu, e que mantém certificação no EU-U.S. Data Privacy Framework.
+      </p>
+      <p>
+        O Data Processing Addendum publicado pela Vercel, com última atualização em 17 de março de 2026, declara aplicar-se a clientes dos planos Pro e Enterprise. Esse adendo incorpora as Standard Contractual Clauses de 2021, aprovadas pela Comissão Europeia na decisão 2021/914, e o UK IDTA para transferências a partir do Reino Unido. Para a LGPD, transferência internacional precisa caber numa hipótese do art. 33. O mecanismo que a Vercel publica para transferências sujeitas ao GDPR é o dessas cláusulas-padrão. Esta página não descreve um contrato além do que está nesses documentos.
+      </p>
+      <p>
+        Fontes: <a href="https://vercel.com/docs/security/compliance">Security and Compliance</a> e <a href="https://vercel.com/legal/dpa">Data Processing Addendum</a>.
       </p>
 
       <h2>Direitos do titular</h2>

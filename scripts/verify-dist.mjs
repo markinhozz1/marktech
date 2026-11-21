@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -133,25 +134,36 @@ for (const file of htmlFiles) {
   const website = data['@graph'].find((node) => node['@type'] === 'WebSite');
   if (!website?.name || !website?.url) fail(`${rel} WebSite incompleto.`);
 
+  const person = data['@graph'].find((node) => node['@type'] === 'Person');
+  if (person?.name !== 'Marcos' || typeof person?.url !== 'string' || !person.url.endsWith('/sobre/')) {
+    fail(`${rel} Person precisa ser Marcos e apontar para /sobre/.`);
+  }
+
+  if (types.has('HowTo')) fail(`${rel} não deve publicar JSON-LD HowTo.`);
+
   if (html.includes('property="article:published_time"')) {
-    if (!types.has('Article') || !types.has('HowTo') || !types.has('BreadcrumbList')) {
-      fail(`${rel} de artigo sem Article, HowTo e BreadcrumbList.`);
+    if (!types.has('Article') || !types.has('BreadcrumbList')) {
+      fail(`${rel} de artigo sem Article e BreadcrumbList.`);
     }
+    if (!html.includes('>Marcos</a>')) fail(`${rel} não assina o artigo como Marcos.`);
     const article = data['@graph'].find((node) => node['@type'] === 'Article');
     for (const key of ['headline', 'description', 'datePublished', 'dateModified', 'mainEntityOfPage']) {
       if (!article?.[key]) fail(`${rel} Article sem ${key}.`);
     }
+    if (article?.author?.['@id'] !== person?.['@id']) fail(`${rel} Article sem autor Marcos.`);
     if (!article?.image?.url || article.image.width < 1200 || article.image.height < 675) {
       fail(`${rel} imagem do Article abaixo de 1200 px ou sem url.`);
     }
-    const howto = data['@graph'].find((node) => node['@type'] === 'HowTo');
-    if (!Array.isArray(howto?.step) || howto.step.length < 3) fail(`${rel} HowTo sem passos.`);
-    howto.step.forEach((step, index) => {
-      if (step['@type'] !== 'HowToStep' || !step.name || !step.text || step.text.length < 40) {
-        fail(`${rel} passo ${index + 1} do HowTo incompleto.`);
-      }
-      if (!html.includes(`id="passo-${index + 1}"`)) fail(`${rel} sem âncora do passo ${index + 1}.`);
-    });
+    if (!article || !Array.isArray(article.hasPart) || article.hasPart.length < 3) {
+      fail(`${rel} Article sem os passos em hasPart.`);
+    } else {
+      article.hasPart.forEach((step, index) => {
+        if (step['@type'] !== 'WebPageElement' || !step.name || !step.text || step.text.length < 40) {
+          fail(`${rel} passo ${index + 1} do Article incompleto.`);
+        }
+        if (!html.includes(`id="passo-${index + 1}"`)) fail(`${rel} sem âncora do passo ${index + 1}.`);
+      });
+    }
   }
 
   const crumbs = data['@graph'].find((node) => node['@type'] === 'BreadcrumbList');
@@ -210,6 +222,42 @@ for (const route of requiredArticles) {
   if (!sitemapBody.includes(route)) fail(`Sitemap sem ${route}`);
 }
 if (sitemapBody.includes('/404')) fail('Sitemap não deve listar a página 404.');
+if (!routes.has('/dicas-e-recursos/') && (sitemapBody.includes('/dicas-e-recursos/') || htmlFiles.some((file) => file.includes(`${path.sep}dicas-e-recursos${path.sep}`)))) {
+  fail('Categoria sem artigo não deve gerar página nem entrar no sitemap.');
+}
+for (const slug of ['nao-funciona', 'backup-e-conversas', 'espaco-e-armazenamento', 'audio-e-mensagens']) {
+  const categoryHtml = await readFile(path.join(dist, slug, 'index.html'), 'utf8');
+  if (!categoryHtml.includes('id="artigos"')) fail(`/${slug}/ sem o título Artigos.`);
+}
+
+const vercelConfig = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
+const hsts = vercelConfig.headers?.[0]?.headers?.find((header) => header.key === 'Strict-Transport-Security');
+if (hsts?.value !== 'max-age=63072000; includeSubDomains') {
+  fail('vercel.json sem Strict-Transport-Security: max-age=63072000; includeSubDomains.');
+}
+
+if (process.env.PUBLIC_ADS_ENABLED !== 'true') {
+  const withSlot = htmlFiles.filter((file) => readFileSync(file, 'utf8').includes('Espaço reservado para anúncio'));
+  if (withSlot.length > 0) fail('AdSlot apareceu com a flag desligada.');
+}
+
+if (process.env.VERCEL_ENV === 'production') {
+  const configured = (process.env.PUBLIC_SITE_URL ?? '').trim();
+  let blocked = !configured;
+  try {
+    const host = new URL(configured).hostname;
+    if (host === 'marktech.example' || host.endsWith('.marktech.example')) blocked = true;
+  } catch {
+    blocked = true;
+  }
+  if (blocked) {
+    fail('VERCEL_ENV=production com PUBLIC_SITE_URL vazio ou placeholder marktech.example.');
+  }
+  const published = [robots, sitemap, sitemapBody, ...htmlFiles.map((file) => readFileSync(file, 'utf8'))].join('\n');
+  if (published.includes('marktech.example')) {
+    fail('O dist de produção ainda contém o placeholder marktech.example.');
+  }
+}
 
 if (files.some((file) => file.endsWith(`${path.sep}ads.txt`) || file.endsWith('/ads.txt'))) {
   fail('ads.txt não deve ser publicado.');

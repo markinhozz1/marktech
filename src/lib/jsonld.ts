@@ -12,7 +12,7 @@ export interface ArticleMeta {
   imageAlt: string;
 }
 
-export interface HowToStep {
+export interface ArticleStep {
   name: string;
   text: string;
 }
@@ -22,8 +22,7 @@ interface PageGraphInput {
   title: string;
   description: string;
   crumbs?: Crumb[];
-  article?: ArticleMeta;
-  howto?: HowToStep[];
+  article?: ArticleMeta & { steps?: ArticleStep[] };
 }
 
 function abs(site: URL, path: string): string {
@@ -65,6 +64,7 @@ export function pageGraph(site: URL, input: PageGraphInput) {
       '@type': 'Person',
       '@id': personId,
       name: publisherName,
+      url: abs(site, '/sobre/'),
       email: contactEmail,
     },
   ];
@@ -102,25 +102,18 @@ export function pageGraph(site: URL, input: PageGraphInput) {
       },
       author: { '@id': personId },
       publisher: { '@id': orgId },
+      ...(input.article.steps && input.article.steps.length > 0
+        ? {
+            hasPart: input.article.steps.map((step, index) => ({
+              '@type': 'WebPageElement',
+              '@id': `${pageUrl}#passo-${index + 1}`,
+              name: step.name,
+              text: step.text,
+              position: index + 1,
+            })),
+          }
+        : {}),
     });
-
-    if (input.howto && input.howto.length >= 2) {
-      graph.push({
-        '@type': 'HowTo',
-        '@id': `${pageUrl}#howto`,
-        name: input.title,
-        description: input.description,
-        inLanguage: 'pt-BR',
-        image: imageUrl,
-        step: input.howto.map((step, index) => ({
-          '@type': 'HowToStep',
-          position: index + 1,
-          name: step.name,
-          text: step.text,
-          url: `${pageUrl}#passo-${index + 1}`,
-        })),
-      });
-    }
   }
 
   return {

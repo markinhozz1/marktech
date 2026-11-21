@@ -27,7 +27,10 @@ const articles = defineCollection({
       .array(
         z.object({
           title: z.string().min(4),
-          url: z.string().url(),
+          url: z
+            .string()
+            .url()
+            .refine((value) => value.startsWith('https://'), 'A URL da fonte precisa começar com https://'),
         }),
       )
       .min(1),

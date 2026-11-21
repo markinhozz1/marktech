@@ -1,6 +1,7 @@
 export const siteName = 'MarkTech';
 export const contactEmail = 'contatomarkinhozz@gmail.com';
 export const publisherName = 'Marcos';
+export const adsEnabled = import.meta.env.PUBLIC_ADS_ENABLED === 'true';
 export const contentReviewed = '2026-11-21';
 
 export const defaultDescription =

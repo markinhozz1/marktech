@@ -5,7 +5,27 @@ import { loadEnv } from 'vite';
 
 const mode = process.env.NODE_ENV || 'development';
 const fileEnv = loadEnv(mode, process.cwd(), '');
-const rawSite = (process.env.PUBLIC_SITE_URL || fileEnv.PUBLIC_SITE_URL || 'https://marktech.example').trim();
+const placeholder = 'https://marktech.example';
+const explicitSite = (process.env.PUBLIC_SITE_URL ?? fileEnv.PUBLIC_SITE_URL ?? '').trim();
+const isProduction = process.env.VERCEL_ENV === 'production';
+
+function isPlaceholderSite(value) {
+  if (!value) return true;
+  try {
+    const url = new URL(value);
+    return url.hostname === 'marktech.example' || url.hostname.endsWith('.marktech.example');
+  } catch {
+    return true;
+  }
+}
+
+if (isProduction && isPlaceholderSite(explicitSite)) {
+  throw new Error(
+    'Build de produção recusado: PUBLIC_SITE_URL está vazio ou usa o placeholder marktech.example. Defina a origem HTTPS final. O domínio ainda pode ser escolhido; este guard só impede publicar o placeholder.',
+  );
+}
+
+const rawSite = explicitSite || placeholder;
 
 function resolveSite(value) {
   let url;
@@ -29,9 +49,13 @@ function resolveSite(value) {
 
 const site = resolveSite(rawSite);
 
-if (site === 'https://marktech.example') {
+if (isProduction && !site.startsWith('https://')) {
+  throw new Error('Em produção, PUBLIC_SITE_URL precisa usar https.');
+}
+
+if (site === placeholder) {
   console.warn(
-    '\n[marktech] PUBLIC_SITE_URL não definido. Canonical, sitemap e JSON-LD usam o placeholder https://marktech.example\n',
+    '\n[marktech] PUBLIC_SITE_URL não definido. Canonical, sitemap e JSON-LD usam o placeholder https://marktech.example. Com VERCEL_ENV=production esse build é recusado.\n',
   );
 }
 

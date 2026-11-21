@@ -10,14 +10,14 @@ featured: 5
 draft: true
 howto:
   - name: "Primeiro passo seguro"
-    text: "Frase completa, com o que fazer e o que não apagar. O texto entra no JSON-LD HowTo e na lista do topo do artigo. Mínimo de quarenta caracteres."
+    text: "Frase completa, com o que fazer e o que não apagar. O texto entra na lista do topo do artigo e no campo hasPart do JSON-LD Article. Mínimo de quarenta caracteres."
   - name: "Segundo passo"
     text: "Outro passo completo. Se o comando apaga conversa, o aviso precisa estar nesta frase, não só no texto longo."
   - name: "Onde parar"
     text: "Diga quando partir para o suporte do fabricante ou da Central de Ajuda, sem indicar APK, mod ou aplicativo de monitoramento."
 sources:
   - title: "Nome da página oficial"
-    url: "https://faq.whatsapp.com/"
+    url: "https://faq.whatsapp.com/?locale=pt_BR"
 ---
 
 O arquivo de verdade fica em `src/content/articles/`, com `draft: false` ou sem o campo draft. Este modelo está fora dessa pasta de propósito, para não virar página.

@@ -1,11 +1,12 @@
 ---
-import { categories } from '../data/categories';
+import type { Category } from '../data/categories';
 
 interface Props {
   current: string;
+  categories: Category[];
 }
 
-const { current } = Astro.props;
+const { current, categories } = Astro.props;
 const items = [
   { href: '/', label: 'Início' },
   ...categories.map((category) => ({ href: `/${category.slug}/`, label: category.nav })),

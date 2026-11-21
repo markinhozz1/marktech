@@ -1,5 +1,5 @@
 ---
-import { contactEmail } from '../lib/site';
+import { adsEnabled, contactEmail } from '../lib/site';
 import { pageGraph } from '../lib/jsonld';
 import { requireSite } from '../lib/site';
 import Base from '../layouts/Base.astro';
@@ -65,7 +65,12 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
 
       <h2>Publicidade</h2>
       <p>
-        Os retângulos com a frase “Espaço reservado para anúncio” não carregam anúncio. Se a publicidade for ativada, a <a href="/privacidade/">Política de Privacidade</a> será atualizada antes, com o regime de cookies e de consentimento.
+        {
+          adsEnabled
+            ? 'Os retângulos com a frase “Espaço reservado para anúncio” não carregam anúncio. '
+            : 'Nesta versão o site não exibe espaço de anúncio nem carrega script de publicidade. '
+        }
+        Se a publicidade for ativada, a <a href="/privacidade/">Política de Privacidade</a> será atualizada antes, com o regime de cookies e de consentimento.
       </p>
 
       <h2>Responsabilidade</h2>

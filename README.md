@@ -27,7 +27,7 @@ npm run verify
 npm run preview
 ```
 
-`npm run verify` lê a pasta `dist/`. Ele falha se faltar página, se um link interno quebrar, se o JSON-LD de artigo não tiver `Article`, `HowTo` e `BreadcrumbList`, se alguma página comum estiver com `noindex`, ou se aparecer script de anúncio.
+`npm run verify` lê a pasta `dist/`. Ele falha se faltar página, se um link interno quebrar, se o JSON-LD de artigo não tiver `Article` (com os passos em `hasPart`), `BreadcrumbList` e a pessoa Marcos, se alguma página comum estiver com `noindex`, ou se aparecer script de anúncio. Com `VERCEL_ENV=production`, também falha se `PUBLIC_SITE_URL` estiver vazio, se for o placeholder `marktech.example`, ou se o `dist/` ainda citar esse placeholder.
 
 ## URL do site
 
@@ -37,17 +37,19 @@ Canonical, Open Graph, sitemap, `robots.txt` e JSON-LD usam a origem definida em
 2. Ajuste o valor, só a origem, sem caminho e sem barra no final. Exemplo: `https://www.seudominio.com.br`.
 3. Rode o build de novo.
 
-Sem essa variável, o build usa o placeholder `https://marktech.example` e avisa no terminal. Troque antes de apontar um domínio. Não coloque segredo nesse valor: é uma URL pública.
+Sem essa variável, o build local e o de preview usam o placeholder `https://marktech.example` e avisam no terminal. O domínio final ainda não foi escolhido. Não coloque segredo nesse valor: é uma URL pública.
 
-Na Vercel, a mesma variável pode ser configurada no projeto, para Production e Preview. Este repositório não cria essa configuração e não faz deploy.
+Se `VERCEL_ENV=production` e `PUBLIC_SITE_URL` estiver vazio ou apontar para `marktech.example` (ou um subdomínio dele), o build para com erro. Uma origem HTTPS real, mesmo fictícia, passa. Preview da Vercel (`VERCEL_ENV=preview`) não entra nesse guard.
+
+Na Vercel, a variável pode ser configurada no projeto. Este repositório não cria essa configuração e não faz deploy.
 
 ## Como publicar um artigo novo
 
 1. Copie `src/content/templates/artigo.md` para `src/content/articles/slug-do-texto.md`. O nome do arquivo vira o slug. A URL fica `/categoria/slug/`.
-2. Preencha o front matter. `category` é uma destas: `nao-funciona`, `backup-e-conversas`, `espaco-e-armazenamento`, `audio-e-mensagens`, `dicas-e-recursos`.
+2. Preencha o front matter. `category` é uma destas: `nao-funciona`, `backup-e-conversas`, `espaco-e-armazenamento`, `audio-e-mensagens`, `dicas-e-recursos`. A categoria só ganha página, menu, rodapé e sitemap quando existe pelo menos um artigo publicado nela. Por isso `dicas-e-recursos` ainda não aparece no site.
 3. `description` é única, entre 70 e 180 caracteres.
-4. Se houver passo a passo, preencha `howto`. Esses passos aparecem no topo do artigo e no JSON-LD `HowTo`. O aviso de passo que apaga conversa tem de estar no texto do passo, não só no miolo.
-5. Liste em `sources` as páginas oficiais que você abriu. Não invente número, depoimento ou caminho de menu.
+4. Se houver passo a passo, preencha `howto`. Esses passos aparecem no topo do artigo e em `hasPart` do JSON-LD `Article`. Não há tipo `HowTo`. O aviso de passo que apaga conversa tem de estar no texto do passo, não só no miolo.
+5. Liste em `sources` as páginas oficiais que você abriu, sempre com `https://`. Prefira a Central de Ajuda em `locale=pt_BR` quando a página existir. Não invente número, depoimento ou caminho de menu.
 6. Crie um SVG original em `src/assets/illustrations/`, mapeie o nome em `scripts/render-images.mjs` e rode `npm run images`. A capa precisa de PNG e WebP em 1920×1080 e de uma variante de 800 px. Nada de foto de terceiros, print ou logotipo de WhatsApp, Meta, Google, Samsung, Motorola ou Xiaomi.
 7. Deixe `draft: false` ou apague o campo. `draft: true` não gera página.
 8. Rode `npm run build` e `npm run verify`.
@@ -64,8 +66,8 @@ Origem, paleta e licença de uso no site: `src/assets/illustrations/ORIGEM.md`. 
 - `robots.txt` é gerado no build, com `Allow: /` e a linha `Sitemap:` apontando para o índice.
 - Na Vercel, `/sitemap.xml` redireciona para `/sitemap-index.xml` (`vercel.json`).
 - Cada página tem `title`, `description`, canonical, Open Graph, Twitter e JSON-LD.
-- Artigos acrescentam `Article`, `HowTo` (quando há `howto`) e `BreadcrumbList`.
-- Organização, site e a pessoa responsável (Marcos) entram no grafo de todas as páginas.
+- Artigos acrescentam `Article` (os passos ficam em `hasPart`) e `BreadcrumbList`.
+- Organização, site e a pessoa Marcos entram no grafo de todas as páginas. Marcos aponta para `/sobre/`. O byline do artigo usa o mesmo nome.
 
 ## Segurança
 
@@ -76,6 +78,7 @@ Origem, paleta e licença de uso no site: `src/assets/illustrations/ORIGEM.md`. 
 - `X-Content-Type-Options: nosniff`
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `Permissions-Policy` com câmera, microfone e localização desligados.
+- `Strict-Transport-Security: max-age=63072000; includeSubDomains`
 
 O `astro dev` e o `astro preview` repetem esses cabeçalhos, sem `upgrade-insecure-requests`, para o HTTP local não quebrar. A versão publicada mantém `upgrade-insecure-requests`.
 
@@ -83,7 +86,7 @@ O JSON-LD vai num `script` com `type="application/ld+json"`. Esse tipo não exec
 
 ## Anúncio (desligado)
 
-O componente `src/components/AdSlot.astro` reserva altura: 100 px no celular e 90 px no banner largo, e 280 px no retângulo de até 336 px. Nada disso carrega script. O texto da caixa é “Espaço reservado para anúncio”.
+O componente `src/components/AdSlot.astro` só entra no HTML quando `PUBLIC_ADS_ENABLED=true`. O padrão é desligado: nenhuma caixa e nenhum espaço reservado. Com a flag ligada, ele reserva altura (100 px no celular e 90 px no banner largo, e 280 px no retângulo de até 336 px) e ainda não carrega script.
 
 Não há `ads.txt` em `public/`. O modelo comentado, que não deve ser copiado para a raiz até existir uma conta real, está em `docs/ads.txt.example`.
 
@@ -96,7 +99,7 @@ Faça nesta ordem, num commit próprio, depois de revisão humana:
 3. Atualize a Política de Privacidade: cookies de publicidade, parceiros, base legal de consentimento (LGPD, art. 7º, I) e a data no topo da página.
 4. Publique `ads.txt` real na raiz, com a linha copiada da conta. Não use o exemplo comentado como arquivo final.
 5. Amplie a CSP em `vercel.json`. A política atual bloqueia domínio externo de propósito. O AdSense precisa de `script-src`, `img-src`, `frame-src` e `connect-src` para os domínios vigentes da documentação do Google. Confira a lista na Central de Ajuda do AdSense na data da ativação; ela muda. Mantenha `frame-ancestors 'none'` e `object-src 'none'`. Não abra `script-src` para `'unsafe-inline'` além do que a CMP exigir, e anote o motivo no README.
-6. Troque o miolo do `AdSlot` pelo código do bloco, sem alterar `min-height`, para o anúncio não empurrar o texto quando chegar.
+6. Defina `PUBLIC_ADS_ENABLED=true` no build e troque o miolo do `AdSlot` pelo código do bloco, sem alterar `min-height`, para o anúncio não empurrar o texto quando chegar.
 7. Rode build, `npm run verify` (o verificador hoje falha se achar script do Google; atualize essa trava no mesmo commit, de propósito) e um Lighthouse de novo.
 
 Até lá, não cole `adsbygoogle`, `gtag` nem o script de `googlesyndication`.

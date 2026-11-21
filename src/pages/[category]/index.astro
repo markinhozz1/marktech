@@ -1,6 +1,6 @@
 ---
-import { categories, categoryBySlug } from '../../data/categories';
-import { publishedArticles } from '../../lib/articles';
+import { categoryBySlug } from '../../data/categories';
+import { categoriesWithArticles, publishedArticles } from '../../lib/articles';
 import { pageGraph } from '../../lib/jsonld';
 import { requireSite } from '../../lib/site';
 import AdSlot from '../../components/AdSlot.astro';
@@ -8,7 +8,8 @@ import ArticleCard from '../../components/ArticleCard.astro';
 import Base from '../../layouts/Base.astro';
 
 export async function getStaticPaths() {
-  return categories.map((category) => ({
+  const articles = await publishedArticles();
+  return categoriesWithArticles(articles).map((category) => ({
     params: { category: category.slug },
     props: { category },
   }));
@@ -48,6 +49,8 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
     </header>
 
     <AdSlot slot="banner" label={`Espaço reservado para publicidade na categoria ${resolved.title}. Nenhum anúncio é carregado.`} />
+
+    <h2 id="artigos">Artigos</h2>
 
     {
       articles.length > 0 ? (

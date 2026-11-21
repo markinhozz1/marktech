@@ -1,10 +1,14 @@
 ---
+import { adsEnabled } from '../lib/site';
+
 interface Props {
   slot: 'banner' | 'rectangle';
   label: string;
 }
 const { slot, label } = Astro.props;
 ---
+
+{adsEnabled && (
 
 <div
   class:list={['ad-slot', `ad-slot--${slot}`]}
@@ -14,3 +18,4 @@ const { slot, label } = Astro.props;
 >
   <p>Espaço reservado para anúncio</p>
 </div>
+)}

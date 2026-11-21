@@ -20,11 +20,11 @@ howto:
     text: "Veja se o app Google Play Services tem atualização. A Central de Ajuda também descreve conferir a permissão de fotos e vídeos, sincronizar a conta Google e, se ainda falhar, sair da conta e entrar de novo. Sair da conta mexe em outros serviços Google daquele celular: tenha a senha em mãos e não faça isso como primeiro teste."
 sources:
   - title: "Central de Ajuda do WhatsApp: como fazer backup do histórico no Android"
-    url: "https://faq.whatsapp.com/481135090640375/?cms_platform=android&locale=en_US"
+    url: "https://faq.whatsapp.com/481135090640375/?cms_platform=android&locale=pt_BR"
   - title: "Central de Ajuda do WhatsApp: sobre backups na conta Google"
-    url: "https://faq.whatsapp.com/407643231403807/?cms_platform=android&locale=en_US"
+    url: "https://faq.whatsapp.com/407643231403807/?cms_platform=android&locale=pt_BR"
   - title: "Central de Ajuda do WhatsApp: não consigo criar ou restaurar o backup"
-    url: "https://faq.whatsapp.com/589979312881396/?cms_platform=android&locale=en_US"
+    url: "https://faq.whatsapp.com/589979312881396/?cms_platform=android&locale=pt_BR"
   - title: "Google Drive: gerenciar o armazenamento da conta, inclusive backup do WhatsApp"
     url: "https://support.google.com/drive/answer/6374270?hl=en"
   - title: "Google One: o que conta na cota de armazenamento"
@@ -39,7 +39,7 @@ sources:
 
 Muita gente chama de “backup no Google Drive” a cópia que o WhatsApp envia para a conta Google. A Central de Ajuda fala em conta Google e em armazenamento Google, não numa pasta comum de documentos. O Google, na ajuda do Drive, confirma o elo: o backup do WhatsApp no Android entra na mesma cota usada por Drive, Gmail e Fotos. Por isso a cópia trava quando essa cota enche, mesmo que você não veja um arquivo solto no meio dos seus documentos.
 
-Há também um backup na nuvem do próprio WhatsApp, que a Central de Ajuda descreve como recurso em construção e teste, e que pode não aparecer na sua conta. Dá para trocar o destino em Configurações, Conversas, Backup de conversas. Este texto é sobre a conta Google. Não misture o aviso de um destino com o botão do outro.
+Há também o armazenamento em nuvem do próprio WhatsApp. Na página em português lida em 21 de novembro de 2026, a Central de Ajuda descreve esse recurso como ainda em fase de desenvolvimento e teste, e diz que ele pode não estar disponível. O destino é escolhido em Configurações, Conversas, Backup de conversas, Backup na nuvem. Este texto é sobre a conta Google. Não misture o aviso de um destino com o botão do outro.
 
 Os menus mudam na One UI, na Motorola e na HyperOS ou MIUI. Siga o sentido do passo.
 
@@ -57,16 +57,17 @@ Se o celular foi trocado e você está no meio de restaurar, o conselho oficial 
 
 ## O que a tela está dizendo
 
-“Travou” e “pausou” não são um único erro. A Central de Ajuda separa alguns avisos. Os nomes abaixo estão como na página em inglês lida para este texto; no aplicativo em português a frase vem traduzida:
+“Travou” e “pausou” não são um único erro. A Central de Ajuda em português separa avisos como estes:
 
-- Espera de Wi-Fi. O backup pode estar configurado para não usar dados móveis. Conecte um Wi-Fi estável ou ligue a opção de backup por dados móveis, se você aceitar o consumo.
-- Falha que pede mais armazenamento. A página diz que o limite estourou e que é preciso liberar espaço no aparelho, apagando mídia ou conversas, ou aumentar o plano se o aperto for na nuvem.
-- Barra em 100% com a notificação ainda na tela. Pode haver envio ou descarga de mídia em segundo plano. A orientação é esperar algumas horas antes de concluir que parou.
-- Backup que não anda no meio do processo. A lista oficial inclui reiniciar, entrar de novo na conta Google, trocar de rede com cuidado, reduzir o tamanho da cópia, carregar a bateria, forçar o fechamento do WhatsApp, conferir o chip em celular com dois SIM e atualizar o Google Play Services.
+- “Aguardando por uma rede Wi-Fi”. O backup pode estar configurado para não usar dados móveis. Conecte um Wi-Fi estável ou ligue a opção de backup por dados móveis, se você aceitar o consumo.
+- “Falha no backup: não há espaço de armazenamento suficiente”. A página diz que o limite estourou. Libere espaço no aparelho, apagando mídia ou conversas, ou aumente o plano se o aperto for na nuvem.
+- “Falha no backup...” e “Não foi possível fazer o backup das mensagens.” também estão nessa lista.
+- Barra em 100% com a notificação ainda na tela. A página diz que pode haver mídia ainda subindo e pede para esperar algumas horas.
+- Backup que não anda no meio do processo. A lista oficial inclui reiniciar, sair e entrar de novo na conta Google, trocar de rede com cuidado, reduzir o tamanho da cópia, carregar a bateria, forçar o fechamento do WhatsApp, conferir o chip em celular com dois chips e atualizar o Google Play Services.
 
 Backup pela metade, diz a mesma página, pode vir de internet instável, pouco espaço no celular ou interrupção no meio do processo.
 
-O Google pode apagar um backup da conta que ficou cinco meses sem atualização. Isso está na Central de Ajuda, na página sobre backups da conta Google. Não é um motivo para ficar criando cópia nova em cima de uma restauração incompleta. É um motivo para, no dia a dia, deixar um backup que termina.
+A Central de Ajuda diz que o Google pode apagar automaticamente um backup da conta que não é atualizado por mais de cinco meses. Isso está na página sobre backups salvos na Conta do Google. Não é um motivo para ficar criando cópia nova em cima de uma restauração incompleta. É um motivo para, no dia a dia, deixar um backup que termina.
 
 ## Wi-Fi, bateria e o celular com dois chips
 

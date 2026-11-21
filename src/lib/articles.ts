@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { categories, type Category } from '../data/categories';
 
 export function readingMinutes(body: string | undefined): number {
   const words = (body ?? '').trim().split(/\s+/).filter(Boolean).length;
@@ -12,6 +13,11 @@ export function sortArticles(articles: CollectionEntry<'articles'>[]): Collectio
     if (featuredA !== featuredB) return featuredA - featuredB;
     return b.data.published.localeCompare(a.data.published);
   });
+}
+
+export function categoriesWithArticles(articles: CollectionEntry<'articles'>[]): Category[] {
+  const slugs = new Set(articles.map((article) => article.data.category));
+  return categories.filter((category) => slugs.has(category.slug));
 }
 
 export async function publishedArticles(): Promise<CollectionEntry<'articles'>[]> {

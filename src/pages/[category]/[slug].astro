@@ -43,8 +43,8 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
     updated: article.data.updated,
     image: `${article.data.cover}.png`,
     imageAlt: article.data.coverAlt,
+    steps: article.data.howto,
   },
-  howto: article.data.howto,
 });
 ---
 
@@ -71,7 +71,7 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
       <h1>{title}</h1>
       <p class="lede">{description}</p>
       <p class="meta">
-        <span>Por MarkTech</span>
+        <span>Por <a href="/sobre/">Marcos</a></span>
         <span aria-hidden="true">·</span>
         <span>Publicado em <time datetime={article.data.published}>{formatDate(article.data.published)}</time></span>
         {
@@ -97,7 +97,7 @@ const jsonLd = pageGraph(requireSite(Astro.site), {
 
     <aside class="note">
       <p>
-        Os nomes dos menus mudam conforme a versão do Android, da One UI, do sistema da Motorola e da HyperOS ou MIUI. Se um rótulo não aparecer igual, siga o comando pelo sentido. As páginas oficiais citadas no fim foram lidas em 21 de novembro de 2026; várias delas estão em inglês.
+        Os nomes dos menus mudam conforme a versão do Android, da One UI, do sistema da Motorola e da HyperOS ou MIUI. Se um rótulo não aparecer igual, siga o comando pelo sentido. As páginas da Central de Ajuda do WhatsApp citadas no fim foram lidas em português em 21 de novembro de 2026. Páginas da Samsung, da Motorola, da Xiaomi e do Google usadas aqui estavam em inglês.
       </p>
     </aside>
 

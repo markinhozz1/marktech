@@ -11,7 +11,7 @@ howto:
   - name: "Reinicie o celular e teste a internet"
     text: "Desligue e ligue o aparelho. Abra um site no navegador para ver se o Wi-Fi ou os dados móveis respondem. A Central de Ajuda do WhatsApp cita reinício, conexão, atualização e cache entre as primeiras tentativas quando o aplicativo fecha ou não abre."
   - name: "Atualize o Android e o WhatsApp pela Play Store"
-    text: "Procure a atualização do sistema nas configurações do celular. Depois abra a Play Store, busque WhatsApp e toque em Atualizar se o botão existir. Use a loja, não um arquivo APK. A Central de Ajuda recomenda no mínimo 1 GB livre na hora de instalar ou atualizar aplicativos."
+    text: "Procure a atualização do sistema nas configurações do celular. Depois abra a Play Store, busque WhatsApp e toque em Atualizar se o botão existir. Use a loja, não um arquivo APK. A Central de Ajuda recomenda que o aparelho tenha, pelo menos, 1 GB livre para instalar ou atualizar aplicativos."
   - name: "Limpe somente o cache do WhatsApp"
     text: "Em Configurações, Aplicativos, WhatsApp e Armazenamento, toque em Limpar cache. A Central de Ajuda informa que limpar o cache não apaga mensagens nem conversas. Não toque em Limpar dados, Limpar armazenamento nem Desinstalar neste passo. O nome do menu muda na One UI, na Motorola e na Xiaomi."
   - name: "Feche outros aplicativos e libere espaço"
@@ -20,11 +20,11 @@ howto:
     text: "Se o aplicativo continuar sem abrir e as conversas ainda estiverem no celular, faça backup em Configurações do WhatsApp, Conversas, Backup de conversas, e espere terminar. Só depois desinstale e instale de novo pela Play Store. Se as conversas já sumiram da tela, não reinstale para “tentar a sorte” nem crie um backup novo: a cópia antiga pode ser a única."
 sources:
   - title: "Central de Ajuda do WhatsApp: o aplicativo ou o celular fecha"
-    url: "https://faq.whatsapp.com/860746416100488"
+    url: "https://faq.whatsapp.com/860746416100488/?locale=pt_BR"
   - title: "Central de Ajuda do WhatsApp: sistemas operacionais suportados"
-    url: "https://faq.whatsapp.com/1150261202542208"
+    url: "https://faq.whatsapp.com/1150261202542208/?locale=pt_BR"
   - title: "Central de Ajuda do WhatsApp: não consigo baixar ou atualizar (Android)"
-    url: "https://faq.whatsapp.com/474624014728741/?cms_platform=android&locale=en_US"
+    url: "https://faq.whatsapp.com/474624014728741/?cms_platform=android&locale=pt_BR"
   - title: "Samsung: limpar cache e dados de um aplicativo no Galaxy"
     url: "https://www.samsung.com/us/support/answer/ANS10001372/"
   - title: "Motorola: limpar cache ou dados de um aplicativo"
@@ -33,7 +33,7 @@ sources:
     url: "https://www.mi.com/global/support/faq/details/KA-569684/"
 ---
 
-O WhatsApp que não abre costuma cair em três grupos: o celular está sem memória ou sem espaço, o aplicativo ou o sistema está velho, ou o cache do app corrompeu. A [Central de Ajuda do WhatsApp](https://faq.whatsapp.com/860746416100488) lista essas causas, junto com falha do aparelho, bug e problema de rede. O texto abaixo segue essa ordem e deixa a reinstalação para o fim.
+O WhatsApp que não abre costuma cair em três grupos: o celular está sem memória ou sem espaço, o aplicativo ou o sistema está velho, ou o cache do app corrompeu. A [Central de Ajuda do WhatsApp](https://faq.whatsapp.com/860746416100488/?locale=pt_BR) lista essas causas, junto com falha do aparelho, bug e problema de rede. O texto abaixo segue essa ordem e deixa a reinstalação para o fim.
 
 Não existe um toque único que sirva para todo Galaxy, todo Moto e todo Xiaomi. A One UI, o Android da Motorola e a HyperOS ou MIUI mudam o nome do menu. O sentido do passo é o que importa.
 
@@ -55,11 +55,11 @@ Um Android ou um WhatsApp muito antigo entra na lista oficial de causas de fecha
 
 Para o aplicativo, abra a Play Store, procure WhatsApp e toque em Atualizar somente se o botão estiver lá. Se aparecer Abrir, a loja entende que a versão instalada já é a que ela distribui.
 
-A Central de Ajuda recomenda no mínimo 1 GB livre para instalar ou atualizar aplicativos. Se a Play Store disser que não há espaço, não adianta insistir no download. Libere espaço primeiro. O guia de [armazenamento do WhatsApp cheio](/espaco-e-armazenamento/armazenamento-do-whatsapp-cheio/) separa mídia, que pode sair, de conversa de texto, que você pode manter.
+A Central de Ajuda recomenda que o aparelho tenha, pelo menos, 1 GB livre para instalar ou atualizar aplicativos. Se a Play Store disser que não há espaço, não adianta insistir no download. Libere espaço primeiro. O guia de [armazenamento do WhatsApp cheio](/espaco-e-armazenamento/armazenamento-do-whatsapp-cheio/) separa mídia, que pode sair, de conversa de texto, que você pode manter.
 
 Não instale o WhatsApp por arquivo APK, por link de grupo ou por “versão atualizada” que alguém mandou. Este site não distribui aplicativo. A loja oficial no Android é a Play Store.
 
-Na data em que este texto foi fechado, a Central de Ajuda dizia que o suporte cobre celulares Android com a versão 6.0 ou mais nova. A mesma página avisa que a lista é revista. Se o seu aparelho for bem antigo, confira o artigo de [sistemas suportados](https://faq.whatsapp.com/1150261202542208) antes de concluir que o app “quebrou”.
+Na leitura de 21 de novembro de 2026, a Central de Ajuda em português lista celulares com Android 6.0 e posterior. A mesma página avisa que a lista é atualizada com regularidade. Se o aparelho for bem antigo, confira o artigo de [sistemas compatíveis](https://faq.whatsapp.com/1150261202542208/?locale=pt_BR) antes de concluir que o app quebrou.
 
 ## Limpe só o cache
 

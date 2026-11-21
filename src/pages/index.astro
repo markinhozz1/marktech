@@ -1,6 +1,5 @@
 ---
-import { publishedArticles } from '../lib/articles';
-import { categories } from '../data/categories';
+import { categoriesWithArticles, publishedArticles } from '../lib/articles';
 import { pageGraph } from '../lib/jsonld';
 import { defaultDescription, requireSite } from '../lib/site';
 import AdSlot from '../components/AdSlot.astro';
@@ -8,6 +7,7 @@ import ArticleCard from '../components/ArticleCard.astro';
 import Base from '../layouts/Base.astro';
 
 const articles = await publishedArticles();
+const visibleCategories = categoriesWithArticles(articles);
 const site = requireSite(Astro.site);
 const description = defaultDescription;
 const title = 'MarkTech: tutoriais de WhatsApp no Android';
@@ -45,7 +45,7 @@ const jsonLd = pageGraph(site, {
       </div>
       <div class="grid category-grid">
         {
-          categories.map((category) => (
+          visibleCategories.map((category) => (
             <article class="category-card">
               <h3>
                 <a href={`/${category.slug}/`}>{category.title}</a>
@@ -62,7 +62,7 @@ const jsonLd = pageGraph(site, {
     <section class="note" aria-labelledby="como-escrevemos">
       <h2 id="como-escrevemos">Como estes guias foram escritos</h2>
       <p>
-        Os passos foram conferidos na Central de Ajuda do WhatsApp e em páginas de suporte do Google, da Samsung, da Motorola e da Xiaomi em 21 de novembro de 2026. Quando a página oficial está em inglês, o guia traduz o caminho para o português usual do celular e avisa que o rótulo pode ser outro.
+        Os passos da Central de Ajuda do WhatsApp foram relidos em português em 21 de novembro de 2026. As páginas de suporte da Samsung, da Motorola, da Xiaomi e do Google usadas nos textos estavam em inglês; o caminho é traduzido pelo sentido, e o menu do celular pode usar outro rótulo.
       </p>
       <p>
         O MarkTech não distribui aplicativo, não indica versão modificada e não ensina a vigiar o celular de outra pessoa.
