@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { categoryBySlug } from '../data/categories';
+import { articlePath, formatDate } from '../lib/site';
+import { readingMinutes } from '../lib/articles';
+import Cover from './Cover.astro';
+
+interface Props {
+  article: CollectionEntry<'articles'>;
+  sizes?: string;
+}
+
+const { article, sizes = '(max-width: 760px) 92vw, 340px' } = Astro.props;
+const category = categoryBySlug(article.data.category);
+const href = articlePath(article.data.category, article.id);
+const minutes = readingMinutes(article.body);
+---
+
+<article class="card">
+  <div class="card-media">
+    <Cover base={article.data.cover} alt={article.data.coverAlt} sizes={sizes} />
+  </div>
+  <div class="card-body">
+    {category && <p class="kicker">{category.title}</p>}
+    <h3><a href={href}>{article.data.title}</a></h3>
+    <p>{article.data.description}</p>
+    <p class="meta">
+      <time datetime={article.data.updated}>{formatDate(article.data.updated)}</time>
+      <span aria-hidden="true">·</span>
+      <span>{minutes} min de leitura</span>
+    </p>
+  </div>
+</article>

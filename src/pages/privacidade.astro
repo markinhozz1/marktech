@@ -1,0 +1,148 @@
+---
+import { adsEnabled, contactEmail } from '../lib/site';
+import { pageGraph } from '../lib/jsonld';
+import { requireSite } from '../lib/site';
+import Base from '../layouts/Base.astro';
+
+const title = 'Política de Privacidade';
+const description =
+  'Política de Privacidade do MarkTech: dados tratados hoje, cookies, anúncios futuros do Google AdSense, bases legais da LGPD e direitos do titular.';
+const jsonLd = pageGraph(requireSite(Astro.site), {
+  path: '/privacidade/',
+  title,
+  description,
+  crumbs: [
+    { name: 'Início', path: '/' },
+    { name: 'Política de Privacidade', path: '/privacidade/' },
+  ],
+});
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <div class="wrap layout">
+    <header class="page-intro">
+      <nav aria-label="Trilha">
+        <ol class="crumbs">
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Política de Privacidade</li>
+        </ol>
+      </nav>
+      <h1>Política de Privacidade</h1>
+      <p class="lede">Atualizada em 21 de novembro de 2026. Texto em linguagem direta. Não substitui orientação jurídica.</p>
+    </header>
+    <div class="prose">
+      <h2>Controlador</h2>
+      <p>
+        O controlador dos dados pessoais tratados por este site é Marcos, responsável pelo MarkTech. Marcos também é o encarregado. Pedidos do titular e contato com o encarregado vão para <a href={`mailto:${contactEmail}?subject=${encodeURIComponent('Privacidade MarkTech')}`}>{contactEmail}</a>.
+      </p>
+      <p>
+        Não publicamos endereço físico porque ele não faz parte do funcionamento deste site. O canal para exercer direitos é o e-mail acima.
+      </p>
+
+      <h2>A que esta política se aplica</h2>
+      <p>
+        Ela vale para as páginas do MarkTech. Não vale para o WhatsApp, a Meta, o Google, a Samsung, a Motorola, a Xiaomi nem para outros sites abertos a partir de um link. Cada um desses serviços tem a própria política.
+      </p>
+
+      <h2>O que este site faz hoje</h2>
+      <p>
+        O MarkTech é um site estático. Não há conta, cadastro, comentário, formulário, newsletter, pixel, ferramenta de analytics nem script de anúncio. Nesta versão, o site não grava cookie próprio de rastreamento e não lê identificador de publicidade.
+      </p>
+
+      <h2>Dados que ainda podem ser tratados</h2>
+      <h3>E-mail que você envia</h3>
+      <p>
+        Se você escrever para o e-mail de contato, Marcos recebe o endereço, o assunto e o que estiver na mensagem, inclusive anexos. Esses dados são usados para responder ao pedido e, se for uma correção, para revisar um tutorial. Não há contrato entre quem escreve e o MarkTech. A base legal é o art. 7º, IX, da Lei nº 13.709, de 14 de agosto de 2018: “quando necessário para atender aos interesses legítimos do controlador ou de terceiro, exceto no caso de prevalecerem direitos e liberdades fundamentais do titular que exijam a proteção dos dados pessoais”. O interesse é responder a quem procurou o site e corrigir o texto, só com o que a mensagem trouxer. Não peça, e não envie, senha, código de verificação ou arquivo de conversa.
+      </p>
+      <p>
+        O e-mail fica na caixa usada para o contato pelo tempo necessário para responder e para guardar o histórico da correção, se ela mudar um artigo publicado. Você pode pedir a eliminação. Mensagens que precisem ser guardadas para exercer direitos ou cumprir dever legal podem ser mantidas só para essa finalidade.
+      </p>
+      <h3>Registros técnicos de hospedagem</h3>
+      <p>
+        A hospedagem prevista é a Vercel, no plano Hobby. O MarkTech não copia log de acesso para um banco próprio. A base legal para operar o site e consultar esses registros é a mesma do art. 7º, IX, transcrito acima: o necessário para atender ao interesse legítimo de manter o site no ar e seguro, sem prevalecer sobre direitos e liberdades fundamentais do titular.
+      </p>
+      <p>
+        O prazo abaixo é o dos logs que o responsável pelo site consulta no painel da Vercel. Não descreve por quanto tempo a Vercel guarda registros como controladora dos próprios sistemas.
+      </p>
+      <p>
+        Na documentação de Runtime Logs, lida em 21 de novembro de 2026, o plano Hobby conserva 1 hora desses logs. Eles incluem a invocação de funções e, entre os pedidos a arquivos estáticos, o pedido atendido a partir do cache. A página de limites informa, à parte, que o log de build de cada deployment fica guardado sem um prazo definido.
+      </p>
+      <p>
+        Fontes: <a href="https://vercel.com/docs/logs/runtime">Runtime Logs</a>, <a href="https://vercel.com/docs/plans/hobby">plano Hobby</a> e <a href="https://vercel.com/docs/limits">Limits</a>.
+      </p>
+
+      <h2>Cookies nesta versão</h2>
+      <p>
+        Nenhum cookie de analytics, de rede social ou de publicidade é colocado pelo MarkTech nesta versão.
+        {
+          adsEnabled
+            ? ' O espaço com o texto “Espaço reservado para anúncio” é só um retângulo vazio no layout. Não há código do Google dentro dele.'
+            : ' Nenhum espaço de anúncio é exibido nas páginas, e não há código do Google carregado.'
+        }
+      </p>
+      <p>
+        O navegador pode guardar um favorito ou um dado local por iniciativa sua. Isso não é um cookie definido por este site.
+      </p>
+
+      <h2>Google AdSense e cookies de publicidade de terceiros</h2>
+      <p>
+        A publicidade ainda não está ativa. Se for ligada no futuro, o Google AdSense e parceiros de anúncio podem gravar cookies e identificadores parecidos para contar exibição, limitar repetição de um anúncio e, conforme a escolha de cada pessoa, personalizar publicidade. Esses cookies não são necessários para ler os tutoriais.
+      </p>
+      <p>
+        A base legal pretendida para cookie de publicidade e para identificador semelhante é o consentimento do art. 7º, I, da LGPD. O script do anúncio só deve ser carregado depois que uma plataforma de gestão de consentimento (CMP) registrar a escolha de quem visita o site. Enquanto não houver CMP instalada e esta política não for atualizada com a data nova, o script permanece desligado. Recusar o cookie de publicidade não pode bloquear a leitura dos artigos.
+      </p>
+      <p>
+        O trecho a seguir só vale se o AdSense for ligado. Hoje ele não está. A página do Google sobre sites que usam os serviços dele, lida em 21 de novembro de 2026, diz que, num site com publicidade como o AdSense, o navegador envia ao Google o URL da página e o endereço IP, e que o Google pode gravar ou ler cookies. A mesma página diz que o Google usa essas informações para prestar os serviços, medir anúncios, proteger contra fraude e abuso e, conforme as configurações, personalizar anúncios. Diz ainda que a Política de Privacidade do Google explica os fundamentos legais em que o Google se baseia, por exemplo o consentimento ou interesses legítimos. Fonte: <a href="https://policies.google.com/technologies/partner-sites?hl=pt-BR">Como o Google usa informações de sites ou apps que utilizam nossos serviços</a>.
+      </p>
+      <p>
+        O arquivo ads.txt só será publicado na raiz do site quando existir um identificador real de editor. Enquanto isso, o site não declara vendedor de anúncio.
+      </p>
+
+      <h2>Compartilhamento</h2>
+      <p>
+        O MarkTech não vende dado pessoal. Hoje, o compartilhamento previsto é com o provedor de hospedagem, que trata o registro técnico para entregar o site, e com o serviço de e-mail que recebe a mensagem que você envia. Se o anúncio for ativado, o Google e os parceiros de publicidade passam a receber os dados técnicos que os cookies de anúncio coletarem, na base do consentimento.
+      </p>
+      <p>
+        A hospedagem prevista usa a Vercel. A página de compliance da Vercel informa que a região padrão das funções é os Estados Unidos, fora do Brasil.
+      </p>
+      <p>
+        Fonte: <a href="https://vercel.com/docs/security/compliance">Security and Compliance</a>.
+      </p>
+
+      <h2>Direitos do titular</h2>
+      <p>Nos termos do art. 18 da LGPD, você pode pedir:</p>
+      <ul>
+        <li>confirmação de que tratamos dados seus;</li>
+        <li>acesso aos dados;</li>
+        <li>correção de dado incompleto, inexato ou desatualizado;</li>
+        <li>anonimização, bloqueio ou eliminação de dado desnecessário, excessivo ou tratado em desconformidade;</li>
+        <li>portabilidade, observados o segredo comercial e o segredo industrial e a regulamentação da autoridade;</li>
+        <li>eliminação dos dados tratados com base no consentimento, quando essa base for a usada;</li>
+        <li>informação das entidades públicas e privadas com as quais o controlador compartilhou dados;</li>
+        <li>informação sobre a possibilidade de não fornecer consentimento e sobre as consequências da negativa;</li>
+        <li>revogação do consentimento, nos termos do § 5º do art. 8º da mesma lei.</li>
+      </ul>
+      <p>
+        O art. 18, § 2º, diz, com estas palavras: “O titular pode opor-se a tratamento realizado com fundamento em uma das hipóteses de dispensa de consentimento, em caso de descumprimento ao disposto nesta Lei.”
+      </p>
+      <p>
+        O pedido vai para {contactEmail}, com o assunto “Privacidade MarkTech”. Podemos pedir só o mínimo para achar o pedido e não entregar dado de uma pessoa a outra. O art. 19 da lei diz que a confirmação da existência ou o acesso aos dados são providenciados em formato simplificado, imediatamente, ou por declaração clara e completa, no prazo de até 15 dias, contado da data do requerimento. O art. 18, § 1º, assegura peticionar em relação aos seus dados contra o controlador perante a autoridade nacional. O canal público da autoridade está em <a href="https://www.gov.br/anpd/pt-br">gov.br/anpd</a>.
+      </p>
+
+      <h2>Crianças e adolescentes</h2>
+      <p>
+        O MarkTech não é dirigido a crianças e não pede dado de criança. Um tutorial de celular pode ser lido por um adolescente. Se um responsável entender que uma criança nos enviou dado pessoal, escreva para o e-mail do controlador e peça a eliminação.
+      </p>
+
+      <h2>Segurança</h2>
+      <p>
+        As páginas são estáticas. Na hospedagem prevista, a entrega usa HTTPS e cabeçalhos que limitam quadro embutido, tipo de conteúdo mal interpretado e acesso a câmera, microfone e localização. Nenhum desses cuidados elimina todo risco. Não envie dado sensível por e-mail se não for indispensável ao pedido.
+      </p>
+
+      <h2>Atualização</h2>
+      <p>
+        Esta versão foi publicada em 21 de novembro de 2026. Ligar anúncio, analytics ou qualquer cookie não essencial exige atualizar esta página, trocar a data e só então carregar o script correspondente.
+      </p>
+    </div>
+  </div>
+</Base>

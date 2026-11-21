@@ -1,0 +1,33 @@
+---
+import type { Category } from '../data/categories';
+
+interface Props {
+  current: string;
+  categories: Category[];
+}
+
+const { current, categories } = Astro.props;
+const items = [
+  { href: '/', label: 'Início' },
+  ...categories.map((category) => ({ href: `/${category.slug}/`, label: category.nav })),
+  { href: '/sobre/', label: 'Sobre' },
+  { href: '/contato/', label: 'Contato' },
+];
+
+function currentAttr(href: string): 'page' | undefined {
+  if (href === '/') return current === '/' ? 'page' : undefined;
+  return current === href || current.startsWith(href) ? 'page' : undefined;
+}
+---
+
+<ul>
+  {
+    items.map((item) => (
+      <li>
+        <a href={item.href} aria-current={currentAttr(item.href)}>
+          {item.label}
+        </a>
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,44 @@
+---
+import { categoriesWithArticles, publishedArticles } from '../lib/articles';
+import { contactEmail, independenceNotice } from '../lib/site';
+const year = 2026;
+const visibleCategories = categoriesWithArticles(await publishedArticles());
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <p class="footer-brand">MarkTech</p>
+      <p class="disclaimer">
+        {independenceNotice} Nomes de marcas aparecem apenas para identificar o aplicativo e os celulares descritos nos tutoriais.
+      </p>
+    </div>
+    <nav aria-label="Categorias">
+      <p class="footer-title">Categorias</p>
+      <ul>
+        {
+          visibleCategories.map((category) => (
+            <li>
+              <a href={`/${category.slug}/`}>{category.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <nav aria-label="Institucional">
+      <p class="footer-title">Institucional</p>
+      <ul>
+        <li><a href="/sobre/">Sobre</a></li>
+        <li><a href="/contato/">Contato</a></li>
+        <li><a href="/privacidade/">Política de Privacidade</a></li>
+        <li><a href="/termos/">Termos de Uso</a></li>
+      </ul>
+      <p class="footer-mail">
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      </p>
+    </nav>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© {year} MarkTech. Tutoriais independentes de WhatsApp no Android.</p>
+  </div>
+</footer>

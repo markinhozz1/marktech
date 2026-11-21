@@ -1,0 +1,72 @@
+---
+import { categoriesWithArticles, publishedArticles } from '../lib/articles';
+import { pageGraph } from '../lib/jsonld';
+import { defaultDescription, requireSite } from '../lib/site';
+import AdSlot from '../components/AdSlot.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import Base from '../layouts/Base.astro';
+
+const articles = await publishedArticles();
+const visibleCategories = categoriesWithArticles(articles);
+const site = requireSite(Astro.site);
+const description = defaultDescription;
+const title = 'MarkTech: tutoriais de WhatsApp no Android';
+const jsonLd = pageGraph(site, {
+  path: '/',
+  title,
+  description,
+});
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <div class="wrap layout">
+    <section class="hero">
+      <p class="kicker">Tutoriais em português</p>
+      <h1>Como resolver o WhatsApp no Android</h1>
+      <p class="lede">
+        Passo a passo para Samsung (One UI), Motorola e Xiaomi (HyperOS ou MIUI). Os menus mudam de um modelo para outro. Quando um ajuste apaga conversa, o texto avisa antes.
+      </p>
+    </section>
+
+    <AdSlot slot="banner" label="Espaço reservado para publicidade no topo da página inicial. Nenhum anúncio é carregado." />
+
+    <section aria-labelledby="destaques">
+      <div class="section-head">
+        <h2 id="destaques">Destaques</h2>
+      </div>
+      <div class="grid cards">
+        {articles.map((article) => <ArticleCard article={article} />)}
+      </div>
+    </section>
+
+    <section aria-labelledby="categorias">
+      <div class="section-head">
+        <h2 id="categorias">Categorias</h2>
+      </div>
+      <div class="grid category-grid">
+        {
+          visibleCategories.map((category) => (
+            <article class="category-card">
+              <h3>
+                <a href={`/${category.slug}/`}>{category.title}</a>
+              </h3>
+              <p>{category.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <AdSlot slot="rectangle" label="Espaço reservado para publicidade no fim da página inicial. Nenhum anúncio é carregado." />
+
+    <section class="note" aria-labelledby="como-escrevemos">
+      <h2 id="como-escrevemos">Como estes guias foram escritos</h2>
+      <p>
+        Os passos da Central de Ajuda do WhatsApp foram relidos em português em 21 de novembro de 2026. As páginas de suporte da Samsung, da Motorola, da Xiaomi e do Google usadas nos textos estavam em inglês; o caminho é traduzido pelo sentido, e o menu do celular pode usar outro rótulo.
+      </p>
+      <p>
+        O MarkTech não distribui aplicativo, não indica versão modificada e não ensina a vigiar o celular de outra pessoa.
+      </p>
+    </section>
+  </div>
+</Base>

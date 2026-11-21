@@ -1,0 +1,29 @@
+---
+interface Props {
+  base: string;
+  alt: string;
+  priority?: boolean;
+  sizes?: string;
+}
+const {
+  base,
+  alt,
+  priority = false,
+  sizes = '(max-width: 760px) 92vw, 720px',
+} = Astro.props;
+---
+
+<picture class="cover">
+  <source type="image/webp" srcset={`${base}-800.webp 800w, ${base}.webp 1920w`} sizes={sizes} />
+  <img
+    src={`${base}-800.png`}
+    srcset={`${base}-800.png 800w, ${base}.png 1920w`}
+    sizes={sizes}
+    width="1920"
+    height="1080"
+    alt={alt}
+    loading={priority ? 'eager' : 'lazy'}
+    decoding="async"
+    fetchpriority={priority ? 'high' : 'auto'}
+  />
+</picture>

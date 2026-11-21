@@ -1,0 +1,59 @@
+---
+import { contactEmail } from '../lib/site';
+import { pageGraph } from '../lib/jsonld';
+import { requireSite } from '../lib/site';
+import Base from '../layouts/Base.astro';
+
+const title = 'Contato';
+const description =
+  'Fale com o MarkTech pelo e-mail contatomarkinhozz@gmail.com. Não há formulário: o site é estático e não envia a mensagem a um serviço de terceiros.';
+const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent('Contato pelo MarkTech')}`;
+const jsonLd = pageGraph(requireSite(Astro.site), {
+  path: '/contato/',
+  title,
+  description,
+  crumbs: [
+    { name: 'Início', path: '/' },
+    { name: 'Contato', path: '/contato/' },
+  ],
+});
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <div class="wrap layout">
+    <header class="page-intro">
+      <nav aria-label="Trilha">
+        <ol class="crumbs">
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Contato</li>
+        </ol>
+      </nav>
+      <h1>Contato</h1>
+      <p class="lede">
+        O MarkTech não tem formulário. A mensagem sai do seu próprio e-mail, direto para a caixa do site, sem um serviço de formulário no meio.
+      </p>
+    </header>
+    <div class="prose">
+      <p>
+        E-mail: <a href={mailto}>{contactEmail}</a>
+      </p>
+      <p>
+        O mesmo endereço recebe correção de tutorial e pedido sobre dados pessoais. Para privacidade, use o assunto “Privacidade MarkTech”. O que a <a href="/privacidade/">Política de Privacidade</a> explica continua valendo para o que você escrever.
+      </p>
+      <h2>O que ajuda a resposta</h2>
+      <ul>
+        <li>O modelo do celular, por exemplo Galaxy A15, Moto G ou Redmi Note.</li>
+        <li>Se a tela é One UI, o Android “puro” da Motorola ou HyperOS/MIUI.</li>
+        <li>A frase exata que aparece no WhatsApp ou na Play Store, se houver.</li>
+        <li>O que você já tentou, sem repetir um passo que apaga conversa.</li>
+      </ul>
+      <h2>O que não enviar</h2>
+      <p>
+        Não mande senha, código de verificação, foto do documento, arquivo de backup nem conversa exportada. Nada disso é necessário para comentar um tutorial, e este site não recupera conta de WhatsApp.
+      </p>
+      <p>
+        Não há prazo prometido de resposta. O MarkTech também não acessa sua conta no aplicativo: quem pode olhar uma conta específica é o suporte do próprio WhatsApp, dentro do app ou pela Central de Ajuda.
+      </p>
+    </div>
+  </div>
+</Base>

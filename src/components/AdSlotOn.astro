@@ -1,0 +1,57 @@
+---
+interface Props {
+  slot: 'banner' | 'rectangle';
+  label: string;
+}
+const { slot, label } = Astro.props;
+---
+
+<div
+  class:list={['ad-slot', `ad-slot--${slot}`]}
+  data-marktech-slot={slot}
+  role="complementary"
+  aria-label={label}
+>
+  <p>Espaço reservado para anúncio</p>
+</div>
+
+<style is:global>
+  .ad-slot {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    border: 1px dashed #8a8175;
+    background: #efe8dc;
+    color: #3e4856;
+    border-radius: 16px;
+    padding: 0.75rem;
+    margin: 1rem 0 1.4rem;
+  }
+
+  .ad-slot p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .ad-slot--banner {
+    min-height: 100px;
+  }
+
+  .ad-slot--rectangle {
+    width: min(100%, 336px);
+    min-height: 280px;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 720px) {
+    .ad-slot--banner {
+      min-height: 90px;
+    }
+  }
+
+  @media print {
+    .ad-slot {
+      display: none;
+    }
+  }
+</style>

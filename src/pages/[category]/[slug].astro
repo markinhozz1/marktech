@@ -1,0 +1,154 @@
+---
+import { render } from 'astro:content';
+import { categoryBySlug } from '../../data/categories';
+import { publishedArticles, readingMinutes, relatedArticles } from '../../lib/articles';
+import { pageGraph } from '../../lib/jsonld';
+import { articlePath, formatDate, independenceNotice, requireSite } from '../../lib/site';
+import AdSlot from '../../components/AdSlot.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import Cover from '../../components/Cover.astro';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const articles = await publishedArticles();
+  return articles.map((article) => ({
+    params: { category: article.data.category, slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const category = categoryBySlug(article.data.category);
+if (!category) {
+  throw new Error(`Categoria inválida em ${article.id}`);
+}
+
+const { Content } = await render(article);
+const related = await relatedArticles(article);
+const minutes = readingMinutes(article.body);
+const path = articlePath(article.data.category, article.id);
+const title = article.data.title;
+const description = article.data.description;
+const jsonLd = pageGraph(requireSite(Astro.site), {
+  path,
+  title,
+  description,
+  crumbs: [
+    { name: 'Início', path: '/' },
+    { name: category.title, path: `/${category.slug}/` },
+    { name: title, path },
+  ],
+  article: {
+    published: article.data.published,
+    updated: article.data.updated,
+    image: `${article.data.cover}.png`,
+    imageAlt: article.data.coverAlt,
+    steps: article.data.howto,
+  },
+});
+---
+
+<Base
+  title={title}
+  description={description}
+  image={`${article.data.cover}.png`}
+  imageAlt={article.data.coverAlt}
+  ogType="article"
+  published={article.data.published}
+  updated={article.data.updated}
+  jsonLd={jsonLd}
+>
+  <article class="wrap layout">
+    <header class="article-header">
+      <nav aria-label="Trilha">
+        <ol class="crumbs">
+          <li><a href="/">Início</a></li>
+          <li><a href={`/${category.slug}/`}>{category.title}</a></li>
+          <li aria-current="page">{title}</li>
+        </ol>
+      </nav>
+      <p class="kicker">{category.title}</p>
+      <h1>{title}</h1>
+      <p class="lede">{description}</p>
+      <p class="meta">
+        <span>Por <a href="/sobre/">Marcos</a></span>
+        <span aria-hidden="true">·</span>
+        <span>Publicado em <time datetime={article.data.published}>{formatDate(article.data.published)}</time></span>
+        {
+          article.data.updated !== article.data.published && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>
+                Atualizado em <time datetime={article.data.updated}>{formatDate(article.data.updated)}</time>
+              </span>
+            </>
+          )
+        }
+        <span aria-hidden="true">·</span>
+        <span>{minutes} min de leitura</span>
+      </p>
+    </header>
+
+    <Cover base={article.data.cover} alt={article.data.coverAlt} priority sizes="(max-width: 760px) 92vw, 720px" />
+
+    <aside class="independence">
+      <p><strong>Aviso:</strong> {independenceNotice} Os nomes das marcas identificam o aplicativo e os celulares. Este texto não é suporte oficial.</p>
+    </aside>
+
+    <aside class="note">
+      <p>
+        Os nomes dos menus mudam conforme a versão do Android, da One UI, do sistema da Motorola e da HyperOS ou MIUI. Se um rótulo não aparecer igual, siga o comando pelo sentido. As páginas da Central de Ajuda do WhatsApp citadas no fim foram lidas em português em 21 de novembro de 2026. Páginas da Samsung, da Motorola, da Xiaomi e do Google usadas aqui estavam em inglês.
+      </p>
+    </aside>
+
+    <AdSlot slot="banner" label="Espaço reservado para publicidade no início do artigo. Nenhum anúncio é carregado." />
+
+    {
+      article.data.howto && (
+        <section class="steps" aria-labelledby="passo-a-passo">
+          <h2 id="passo-a-passo">Passo a passo</h2>
+          <ol>
+            {article.data.howto.map((step, index) => (
+              <li id={`passo-${index + 1}`}>
+                <h3>{step.name}</h3>
+                <p>{step.text}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <AdSlot slot="rectangle" label="Espaço reservado para publicidade no fim do artigo. Nenhum anúncio é carregado." />
+
+    <section class="sources" aria-labelledby="fontes">
+      <h2 id="fontes">Fontes oficiais usadas neste texto</h2>
+      <ol>
+        {
+          article.data.sources.map((source) => (
+            <li>
+              <a href={source.url} rel="noopener noreferrer">{source.title}</a>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    {
+      related.length > 0 && (
+        <section class="related" aria-labelledby="relacionados">
+          <h2 id="relacionados">Outros tutoriais</h2>
+          <div class="grid cards">
+            {related.map((item) => (
+              <ArticleCard article={item} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </article>
+</Base>

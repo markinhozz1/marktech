@@ -1,0 +1,12 @@
+---
+import { adsEnabled } from '../lib/site';
+import Markup from './AdSlotOn.astro';
+
+interface Props {
+  slot: 'banner' | 'rectangle';
+  label: string;
+}
+const { slot, label } = Astro.props;
+---
+
+{adsEnabled && <Markup slot={slot} label={label} />}

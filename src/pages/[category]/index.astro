@@ -1,0 +1,75 @@
+---
+import { categoryBySlug } from '../../data/categories';
+import { categoriesWithArticles, publishedArticles } from '../../lib/articles';
+import { pageGraph } from '../../lib/jsonld';
+import { requireSite } from '../../lib/site';
+import AdSlot from '../../components/AdSlot.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const articles = await publishedArticles();
+  return categoriesWithArticles(articles).map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const resolved = category ?? categoryBySlug(Astro.params.category ?? '');
+if (!resolved) {
+  throw new Error('Categoria não encontrada.');
+}
+
+const articles = (await publishedArticles()).filter((article) => article.data.category === resolved.slug);
+const path = `/${resolved.slug}/`;
+const jsonLd = pageGraph(requireSite(Astro.site), {
+  path,
+  title: resolved.title,
+  description: resolved.description,
+  crumbs: [
+    { name: 'Início', path: '/' },
+    { name: resolved.title, path },
+  ],
+});
+---
+
+<Base title={resolved.title} description={resolved.description} jsonLd={jsonLd}>
+  <div class="wrap layout">
+    <header class="page-intro">
+      <nav aria-label="Trilha">
+        <ol class="crumbs">
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">{resolved.title}</li>
+        </ol>
+      </nav>
+      <p class="kicker">Categoria</p>
+      <h1>{resolved.title}</h1>
+      {resolved.intro.map((paragraph) => <p class="lede">{paragraph}</p>)}
+    </header>
+
+    <AdSlot slot="banner" label={`Espaço reservado para publicidade na categoria ${resolved.title}. Nenhum anúncio é carregado.`} />
+
+    <h2 id="artigos">Artigos</h2>
+
+    {
+      articles.length > 0 ? (
+        <div class="grid cards">
+          {articles.map((article) => (
+            <ArticleCard article={article} />
+          ))}
+        </div>
+      ) : (
+        <div class="empty">
+          <p>Ainda não há tutorial publicado nesta categoria.</p>
+          <p>
+            Os guias que já estão no ar ficam em <a href="/nao-funciona/">Não funciona/erros</a>,{' '}
+            <a href="/backup-e-conversas/">Backup e conversas</a>,{' '}
+            <a href="/espaco-e-armazenamento/">Espaço e armazenamento</a> e{' '}
+            <a href="/audio-e-mensagens/">Áudio e mensagens</a>.
+          </p>
+        </div>
+      )
+    }
+  </div>
+</Base>
