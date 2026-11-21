@@ -1,0 +1,67 @@
+---
+import { contactEmail } from '../lib/site';
+import { pageGraph } from '../lib/jsonld';
+import { requireSite } from '../lib/site';
+import Base from '../layouts/Base.astro';
+
+const title = 'Sobre o MarkTech';
+const description =
+  'O MarkTech é o site de Marcos com tutoriais independentes, em português, sobre o WhatsApp no Android. Sem vínculo com WhatsApp ou Meta.';
+const jsonLd = pageGraph(requireSite(Astro.site), {
+  path: '/sobre/',
+  title,
+  description,
+  crumbs: [
+    { name: 'Início', path: '/' },
+    { name: 'Sobre', path: '/sobre/' },
+  ],
+});
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <div class="wrap layout">
+    <header class="page-intro">
+      <nav aria-label="Trilha">
+        <ol class="crumbs">
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Sobre</li>
+        </ol>
+      </nav>
+      <h1>Sobre o MarkTech</h1>
+      <p class="lede">
+        O MarkTech é o site de Marcos. Publica tutoriais em português para quem precisa resolver um problema do WhatsApp no Android e quer o caminho escrito com calma.
+      </p>
+    </header>
+    <div class="prose">
+      <p>
+        O site não pertence ao WhatsApp, à Meta, ao Google, à Samsung, à Motorola nem à Xiaomi. O nome de cada marca entra só para dizer de qual aplicativo ou de qual celular o passo está falando.
+      </p>
+      <h2>O que os tutoriais cobrem</h2>
+      <p>
+        O foco é o celular Android, com atenção a três famílias de aparelho muito usadas no Brasil: Samsung com One UI, Motorola e Xiaomi com HyperOS ou MIUI. Um mesmo comando pode estar em outro menu. Por isso os textos pedem para seguir o sentido do passo quando o rótulo não bater.
+      </p>
+      <h2>Como um guia é fechado</h2>
+      <p>
+        O passo que mexe em conversa, backup ou armazenamento é conferido numa página oficial antes de ser publicado. A lista de fontes fica no fim de cada artigo, com a data em que aquelas páginas foram lidas. Se a Central de Ajuda mudar um caminho, o texto precisa ser revisto. Este site não inventa porcentagem de sucesso, depoimento nem número de pessoas atendidas.
+      </p>
+      <p>
+        Ação que apaga conversa — limpar dados, desinstalar, apagar backup, limpar o chat — aparece com aviso antes do passo, não depois.
+      </p>
+      <h2>O que o MarkTech não faz</h2>
+      <ul>
+        <li>Não oferece arquivo APK nem versão modificada do WhatsApp.</li>
+        <li>Não indica aplicativo de monitoramento, espião ou acesso à conta de outra pessoa.</li>
+        <li>Não pede código de verificação, senha ou cópia das conversas.</li>
+        <li>Não carrega, nesta versão, anúncio, analytics ou cookie de publicidade.</li>
+      </ul>
+      <h2>Ilustrações</h2>
+      <p>
+        As capas e o ícone são desenhos geométricos feitos para o MarkTech. Não usam o logotipo, o telefone verde nem a paleta de identidade do WhatsApp.
+      </p>
+      <h2>Correções</h2>
+      <p>
+        Achou um menu diferente do que está escrito, ou um link oficial que mudou? Escreva para <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. Diga o modelo do celular e, se souber, a versão do Android. Não envie senha, código de seis dígitos nem arquivo de backup.
+      </p>
+    </div>
+  </div>
+</Base>

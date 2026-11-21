@@ -1,0 +1,93 @@
+---
+import { contactEmail } from '../lib/site';
+import { pageGraph } from '../lib/jsonld';
+import { requireSite } from '../lib/site';
+import Base from '../layouts/Base.astro';
+
+const title = 'Termos de Uso';
+const description =
+  'Termos de Uso do MarkTech: o conteúdo é informativo, os menus variam por celular e passos que apagam conversas exigem backup antes.';
+const jsonLd = pageGraph(requireSite(Astro.site), {
+  path: '/termos/',
+  title,
+  description,
+  crumbs: [
+    { name: 'Início', path: '/' },
+    { name: 'Termos de Uso', path: '/termos/' },
+  ],
+});
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <div class="wrap layout">
+    <header class="page-intro">
+      <nav aria-label="Trilha">
+        <ol class="crumbs">
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Termos de Uso</li>
+        </ol>
+      </nav>
+      <h1>Termos de Uso</h1>
+      <p class="lede">Vigentes em 21 de novembro de 2026. O uso das páginas indica que você leu este texto.</p>
+    </header>
+    <div class="prose">
+      <h2>O que é o MarkTech</h2>
+      <p>
+        O MarkTech é um site de Marcos com tutoriais em português sobre o aplicativo WhatsApp em celulares Android. Ele é independente. Não há vínculo, parceria, endosso ou suporte oficial do WhatsApp, da Meta, do Google, da Samsung, da Motorola ou da Xiaomi.
+      </p>
+      <p>
+        Nomes e marcas de terceiros aparecem de forma descritiva, para identificar o programa ou o aparelho de que o tutorial fala. A marca MarkTech e as ilustrações geométricas do site são próprias.
+      </p>
+
+      <h2>Conteúdo informativo</h2>
+      <p>
+        Os artigos explicam caminhos que a documentação oficial descrevia na data indicada em cada texto. Eles não são ordem de serviço, não abrem chamado no WhatsApp e não garantem que o mesmo toque exista no seu modelo. One UI, o Android da Motorola e HyperOS ou MIUI reorganizam menus. Leia o aviso do artigo antes de seguir um passo.
+      </p>
+      <p>
+        Antes de limpar dados, desinstalar, apagar um backup ou limpar uma conversa, confirme que existe uma cópia que você consegue restaurar. Se as conversas já sumiram do celular, não crie um backup novo por cima do antigo: a cópia anterior pode ser a única.
+      </p>
+
+      <h2>O que não é permitido fazer a partir daqui</h2>
+      <ul>
+        <li>Usar o site para distribuir APK, cliente modificado ou “atualização” fora da loja oficial.</li>
+        <li>Oferecer ou procurar, nos canais do MarkTech, programa de monitoramento, espião ou acesso à conta de outra pessoa.</li>
+        <li>Copiar um artigo inteiro ou as ilustrações e republicar como se fossem seus.</li>
+        <li>Enviar senha, código de verificação ou backup das conversas para o e-mail de contato.</li>
+      </ul>
+      <p>
+        Compartilhar o link de um tutorial é bem-vindo.
+      </p>
+
+      <h2>Links e serviços de terceiros</h2>
+      <p>
+        Vários artigos apontam para a Central de Ajuda do WhatsApp e para o suporte do Google e dos fabricantes. Ao sair do MarkTech, passam a valer os termos e a privacidade daquele site. Não controlamos o que eles mostram nem por quanto tempo o endereço continua igual.
+      </p>
+
+      <h2>Publicidade</h2>
+      <p>
+        Os retângulos com a frase “Espaço reservado para anúncio” não carregam anúncio. Se a publicidade for ativada, a <a href="/privacidade/">Política de Privacidade</a> será atualizada antes, com o regime de cookies e de consentimento.
+      </p>
+
+      <h2>Responsabilidade</h2>
+      <p>
+        O MarkTech se esforça para descrever o caminho oficial sem inventar resultado. Ainda assim, um tutorial pode ficar desatualizado, e um passo feito no celular errado pode apagar dado local. Na medida permitida pela lei brasileira, Marcos não responde por perda de conversa, backup ou arquivo decorrente do uso dos tutoriais sem a conferência pedida no próprio texto.
+      </p>
+      <p>
+        Nada neste termo afasta direito irrenunciável previsto no Código de Defesa do Consumidor, se a lei reconhecer esse direito no caso concreto.
+      </p>
+
+      <h2>Propriedade intelectual</h2>
+      <p>
+        Textos, organização dos tutoriais, ícone e ilustrações são de Marcos, sob o nome MarkTech, salvo quando um artigo indicar fonte externa. Marcas de terceiros continuam dos respectivos titulares.
+      </p>
+
+      <h2>Lei e contato</h2>
+      <p>
+        Estes termos se regem pelas leis da República Federativa do Brasil. Quando a legislação de defesa do consumidor fixar o foro do domicílio de quem usa o site, é esse o foro. Fora dessa hipótese, não indicamos uma cidade aqui porque o site não publica endereço físico.
+      </p>
+      <p>
+        Dúvidas sobre os termos: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+      </p>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  slot: 'banner' | 'rectangle';
+  label: string;
+}
+const { slot, label } = Astro.props;
+---
+
+<div
+  class:list={['ad-slot', `ad-slot--${slot}`]}
+  data-marktech-slot={slot}
+  role="complementary"
+  aria-label={label}
+>
+  <p>Espaço reservado para anúncio</p>
+</div>

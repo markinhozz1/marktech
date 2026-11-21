@@ -1,0 +1,131 @@
+---
+import { contactEmail } from '../lib/site';
+import { pageGraph } from '../lib/jsonld';
+import { requireSite } from '../lib/site';
+import Base from '../layouts/Base.astro';
+
+const title = 'Política de Privacidade';
+const description =
+  'Política de Privacidade do MarkTech: dados tratados hoje, cookies, anúncios futuros do Google AdSense, bases legais da LGPD e direitos do titular.';
+const jsonLd = pageGraph(requireSite(Astro.site), {
+  path: '/privacidade/',
+  title,
+  description,
+  crumbs: [
+    { name: 'Início', path: '/' },
+    { name: 'Política de Privacidade', path: '/privacidade/' },
+  ],
+});
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <div class="wrap layout">
+    <header class="page-intro">
+      <nav aria-label="Trilha">
+        <ol class="crumbs">
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Política de Privacidade</li>
+        </ol>
+      </nav>
+      <h1>Política de Privacidade</h1>
+      <p class="lede">Atualizada em 21 de novembro de 2026. Texto em linguagem direta. Não substitui orientação jurídica.</p>
+    </header>
+    <div class="prose">
+      <h2>Controlador</h2>
+      <p>
+        O controlador dos dados pessoais tratados por este site é Marcos, responsável pelo MarkTech. O contato para pedidos do titular é <a href={`mailto:${contactEmail}?subject=${encodeURIComponent('Privacidade MarkTech')}`}>{contactEmail}</a>. Não há encarregado nomeado nesta data. Se a nomeação passar a ser exigida, o contato do encarregado será incluído neste texto, com nova data de atualização.
+      </p>
+      <p>
+        Não publicamos endereço físico porque ele não faz parte do funcionamento deste site. O canal para exercer direitos é o e-mail acima.
+      </p>
+
+      <h2>A que esta política se aplica</h2>
+      <p>
+        Ela vale para as páginas do MarkTech. Não vale para o WhatsApp, a Meta, o Google, a Samsung, a Motorola, a Xiaomi nem para outros sites abertos a partir de um link. Cada um desses serviços tem a própria política.
+      </p>
+
+      <h2>O que este site faz hoje</h2>
+      <p>
+        O MarkTech é um site estático. Não há conta, cadastro, comentário, formulário, newsletter, pixel, ferramenta de analytics nem script de anúncio. Nesta versão, o site não grava cookie próprio de rastreamento e não lê identificador de publicidade.
+      </p>
+
+      <h2>Dados que ainda podem ser tratados</h2>
+      <h3>E-mail que você envia</h3>
+      <p>
+        Se você escrever para o e-mail de contato, Marcos recebe o endereço, o assunto e o que estiver na mensagem, inclusive anexos. Esses dados são usados para responder ao pedido e, se for uma correção, para revisar um tutorial. A base legal é o art. 7º, V, da Lei nº 13.709/2018 (LGPD): procedimento realizado a pedido do titular. Não peça, e não envie, senha, código de verificação ou arquivo de conversa.
+      </p>
+      <p>
+        O e-mail fica na caixa usada para o contato pelo tempo necessário para responder e para guardar o histórico da correção, se ela mudar um artigo publicado. Você pode pedir a eliminação. Mensagens que precisem ser guardadas para exercer direitos ou cumprir dever legal podem ser mantidas só para essa finalidade.
+      </p>
+      <h3>Registros técnicos de hospedagem</h3>
+      <p>
+        Ao publicar o site, o provedor de hospedagem pode registrar dados técnicos de conexão, como endereço IP, data e hora, página pedida e identificador do navegador. Isso serve para entregar a página, limitar abuso e investigar falha de segurança. A base legal pretendida é o legítimo interesse do art. 7º, IX, da LGPD, restrito à operação e à segurança do site.
+      </p>
+      <p>
+        O MarkTech não opera esse registro num banco próprio e não fixa aqui um número de dias de guarda: o prazo é o do provedor. Antes da publicação em produção, o controlador deve confirmar esse prazo na documentação vigente da hospedagem e, se quiser um número público, atualizar esta página.
+      </p>
+
+      <h2>Cookies nesta versão</h2>
+      <p>
+        Nenhum cookie de analytics, de rede social ou de publicidade é colocado pelo MarkTech nesta versão. O espaço com o texto “Espaço reservado para anúncio” é só um retângulo vazio no layout. Não há código do Google dentro dele.
+      </p>
+      <p>
+        O navegador pode guardar um favorito ou um dado local por iniciativa sua. Isso não é um cookie definido por este site.
+      </p>
+
+      <h2>Google AdSense e cookies de publicidade de terceiros</h2>
+      <p>
+        A publicidade ainda não está ativa. Se for ligada no futuro, o Google AdSense e parceiros de anúncio podem gravar cookies e identificadores parecidos para contar exibição, limitar repetição de um anúncio e, conforme a escolha de cada pessoa, personalizar publicidade. Esses cookies não são necessários para ler os tutoriais.
+      </p>
+      <p>
+        A base legal pretendida para cookie de publicidade e para identificador semelhante é o consentimento do art. 7º, I, da LGPD. O script do anúncio só deve ser carregado depois que uma plataforma de gestão de consentimento (CMP) registrar a escolha de quem visita o site. Enquanto não houver CMP instalada e esta política não for atualizada com a data nova, o script permanece desligado. Recusar o cookie de publicidade não pode bloquear a leitura dos artigos.
+      </p>
+      <p>
+        O Google pode tratar dados ligados ao anúncio como controlador próprio, segundo as regras dele. As páginas públicas usadas como referência são a <a href="https://policies.google.com/privacy">Política de Privacidade do Google</a>, as <a href="https://policies.google.com/technologies/ads">tecnologias de publicidade do Google</a> e as <a href="https://adssettings.google.com/">configurações de anúncios</a>. Parceiros do programa de anúncios também podem definir cookies de terceiros quando o anúncio estiver ativo. A lista vigente desses parceiros deve ser a que o Google publicar na conta do editor, não uma lista inventada neste texto.
+      </p>
+      <p>
+        O arquivo <code>ads.txt</code> só será publicado na raiz do site quando existir um identificador real de editor. Um modelo comentado, que não é servido como anúncio autorizado, está em <code>docs/ads.txt.example</code> no repositório. Ele não declara nenhuma conta.
+      </p>
+
+      <h2>Compartilhamento</h2>
+      <p>
+        O MarkTech não vende dado pessoal. Hoje, o compartilhamento previsto é com o provedor de hospedagem, que trata o registro técnico para entregar o site, e com o serviço de e-mail que recebe a mensagem que você envia. Se o anúncio for ativado, o Google e os parceiros de publicidade passam a receber os dados técnicos que os cookies de anúncio coletarem, na base do consentimento.
+      </p>
+      <p>
+        Hospedagem no exterior e, no futuro, publicidade de empresa estrangeira podem caracterizar transferência internacional. A hipótese do art. 33 da LGPD depende do mecanismo que o provedor oferecer no momento da contratação, por exemplo cláusulas-padrão ou outra garantia aceita pela lei. Esta página não afirma que um contrato específico já foi assinado. Confirmar esse mecanismo e registrá-lo aqui é pendência de pré-produção.
+      </p>
+
+      <h2>Direitos do titular</h2>
+      <p>Nos termos do art. 18 da LGPD, você pode pedir:</p>
+      <ul>
+        <li>confirmação de que tratamos dados seus;</li>
+        <li>acesso aos dados;</li>
+        <li>correção de dado incompleto, inexato ou desatualizado;</li>
+        <li>anonimização, bloqueio ou eliminação de dado desnecessário, excessivo ou tratado em desconformidade;</li>
+        <li>portabilidade, observados o segredo comercial e o segredo industrial e a regulamentação da autoridade;</li>
+        <li>eliminação dos dados tratados com base no consentimento, quando essa base for a usada;</li>
+        <li>informação das entidades públicas e privadas com as quais o controlador compartilhou dados;</li>
+        <li>informação sobre a possibilidade de não fornecer consentimento e sobre as consequências da negativa;</li>
+        <li>revogação do consentimento, sem apagar a licitude do tratamento feito até a revogação.</li>
+      </ul>
+      <p>
+        O pedido vai para {contactEmail}, com o assunto “Privacidade MarkTech”. Podemos pedir só o mínimo para achar o pedido e não entregar dado de uma pessoa a outra. O prazo de resposta é o previsto na LGPD e nas normas da Autoridade Nacional de Proteção de Dados (ANPD). Você também pode apresentar reclamação à ANPD, em <a href="https://www.gov.br/anpd/pt-br">gov.br/anpd</a>.
+      </p>
+
+      <h2>Crianças e adolescentes</h2>
+      <p>
+        O MarkTech não é dirigido a crianças e não pede dado de criança. Um tutorial de celular pode ser lido por um adolescente. Se um responsável entender que uma criança nos enviou dado pessoal, escreva para o e-mail do controlador e peça a eliminação.
+      </p>
+
+      <h2>Segurança</h2>
+      <p>
+        As páginas são estáticas. Na hospedagem prevista, a entrega usa HTTPS e cabeçalhos que limitam quadro embutido, tipo de conteúdo mal interpretado e acesso a câmera, microfone e localização. Nenhum desses cuidados elimina todo risco. Não envie dado sensível por e-mail se não for indispensável ao pedido.
+      </p>
+
+      <h2>Atualização</h2>
+      <p>
+        Esta versão foi publicada em 21 de novembro de 2026. Ligar anúncio, analytics ou qualquer cookie não essencial exige atualizar esta página, trocar a data e só então carregar o script correspondente.
+      </p>
+    </div>
+  </div>
+</Base>

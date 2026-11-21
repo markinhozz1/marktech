@@ -1,0 +1,32 @@
+---
+import { pageGraph } from '../lib/jsonld';
+import { requireSite } from '../lib/site';
+import Base from '../layouts/Base.astro';
+
+const title = 'Página não encontrada';
+const description = 'Este endereço não existe no MarkTech. Volte ao início ou escolha uma categoria de tutoriais.';
+const jsonLd = pageGraph(requireSite(Astro.site), {
+  path: '/404/',
+  title,
+  description,
+});
+---
+
+<Base title={title} description={description} robots="noindex, follow" noCanonical jsonLd={jsonLd}>
+  <div class="wrap layout">
+    <header class="page-intro">
+      <p class="kicker">Erro 404</p>
+      <h1>Esta página não está no MarkTech</h1>
+      <p class="lede">O endereço pode ter sido digitado errado. Os tutoriais publicados continuam nas categorias abaixo.</p>
+    </header>
+    <p><a href="/">Ir para a página inicial</a></p>
+    <ul>
+      <li><a href="/nao-funciona/">Não funciona/erros</a></li>
+      <li><a href="/backup-e-conversas/">Backup e conversas</a></li>
+      <li><a href="/espaco-e-armazenamento/">Espaço e armazenamento</a></li>
+      <li><a href="/audio-e-mensagens/">Áudio e mensagens</a></li>
+      <li><a href="/dicas-e-recursos/">Dicas e recursos</a></li>
+      <li><a href="/contato/">Contato</a></li>
+    </ul>
+  </div>
+</Base>

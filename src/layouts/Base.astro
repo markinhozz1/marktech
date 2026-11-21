@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { siteName } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  ogType?: 'website' | 'article';
+  published?: string;
+  updated?: string;
+  robots?: string;
+  jsonLd?: unknown;
+  noCanonical?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = '/images/og/marktech.png',
+  imageAlt = 'Ilustração geométrica do MarkTech, site independente de tutoriais.',
+  ogType = 'website',
+  published,
+  updated,
+  robots = 'index, follow, max-image-preview:large',
+  jsonLd,
+  noCanonical = false,
+} = Astro.props;
+
+const site = Astro.site;
+if (!site && !noCanonical) {
+  throw new Error('Defina site em astro.config.');
+}
+const canonical = site ? new URL(Astro.url.pathname, site).href : Astro.url.href;
+const imageUrl = site ? new URL(image, site).href : image;
+const fullTitle = title.includes(siteName) ? title : `${title} · ${siteName}`;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="author" content={siteName} />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#1b2740" />
+    {!noCanonical && <link rel="canonical" href={canonical} />}
+    {!noCanonical && <link rel="alternate" hreflang="pt-BR" href={canonical} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    {!noCanonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1080" />
+    {ogType === 'article' && published && <meta property="article:published_time" content={published} />}
+    {ogType === 'article' && updated && <meta property="article:modified_time" content={updated} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    {jsonLd && <JsonLd data={jsonLd} />}
+  </head>
+  <body>
+    <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+    <Header />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

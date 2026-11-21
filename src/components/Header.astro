@@ -1,0 +1,24 @@
+---
+import Logo from './Logo.astro';
+import NavList from './NavList.astro';
+
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="wrap header-bar">
+    <a class="brand" href="/">
+      <Logo />
+      <span>MarkTech</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Principal">
+      <NavList current={current} />
+    </nav>
+    <details class="mobile-nav">
+      <summary>Menu</summary>
+      <nav aria-label="Principal">
+        <NavList current={current} />
+      </nav>
+    </details>
+  </div>
+</header>

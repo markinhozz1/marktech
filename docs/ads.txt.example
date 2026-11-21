@@ -1,0 +1,10 @@
+# NÃO publique este arquivo como /ads.txt.
+# Ele existe só como modelo comentado. Não autoriza nenhum vendedor de anúncio.
+#
+# Quando houver uma conta AdSense aprovada, crie public/ads.txt com UMA linha real,
+# copiada da conta, no formato:
+#
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+#
+# O identificador pub- e o certificado vêm da sua conta. Não invente esses campos.
+# Enquanto este exemplo estiver só em docs/, o site não declara vendedor de anúncio.

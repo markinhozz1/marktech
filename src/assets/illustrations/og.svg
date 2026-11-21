@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#1b2740"/>
+  <circle cx="1560" cy="220" r="260" fill="#24344f"/>
+  <circle cx="180" cy="940" r="200" fill="#24344f"/>
+  <g transform="translate(1320 330) scale(6)">
+    <rect width="64" height="64" rx="14" fill="#c56a32"/>
+    <path fill="#1b2740" d="M14 50V14h8.2l9.8 18.4L41.8 14H50v36h-7.2V27.6L34.2 46h-4.4L21.2 27.6V50H14z"/>
+  </g>
+  <text x="160" y="520" fill="#f6f1e8" font-family="Inter, Liberation Sans, sans-serif" font-size="132" font-weight="700">MarkTech</text>
+  <text x="164" y="610" fill="#f0c7a4" font-family="Inter, Liberation Sans, sans-serif" font-size="42">Tutoriais independentes para o Android</text>
+  <rect x="164" y="660" width="220" height="14" rx="7" fill="#c56a32"/>
+</svg>
