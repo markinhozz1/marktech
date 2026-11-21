@@ -27,21 +27,27 @@ npm run verify
 npm run preview
 ```
 
-`npm run verify` lê a pasta `dist/`. Ele falha se faltar página, se um link interno quebrar, se o JSON-LD de artigo não tiver `Article` (com os passos em `hasPart`), `BreadcrumbList` e a pessoa Marcos, se alguma página comum estiver com `noindex`, ou se aparecer script de anúncio. Com `VERCEL_ENV=production`, também falha se `PUBLIC_SITE_URL` estiver vazio, se for o placeholder `marktech.example`, ou se o `dist/` ainda citar esse placeholder.
+`npm run verify` lê a pasta `dist/`. Ele falha se faltar página, se um link interno quebrar, se o JSON-LD de artigo não tiver `Article` (com os passos em `hasPart`), `BreadcrumbList` e a pessoa Marcos, se alguma página comum estiver com `noindex`, ou se aparecer script de anúncio. Quando o alvo é produção, também falha se `PUBLIC_SITE_URL` estiver vazio, se for o placeholder `marktech.example`, ou se o `dist/` ainda citar esse placeholder.
 
 ## URL do site
 
 Canonical, Open Graph, sitemap, `robots.txt` e JSON-LD usam a origem definida em `PUBLIC_SITE_URL`.
 
-1. Copie `.env.example` para `.env` (o `.env` não entra no Git).
-2. Ajuste o valor, só a origem, sem caminho e sem barra no final. Exemplo: `https://www.seudominio.com.br`.
+O código, quando a variável não existe, usa o placeholder `https://marktech.example`. Esse valor não é o site de produção. A URL prevista para configurar na Vercel, no ambiente Production, é `https://marktech.vercel.app`. Ela não está fixa no repositório.
+
+1. Na Vercel, crie `PUBLIC_SITE_URL` com `https://marktech.vercel.app` para Production.
+2. Para um teste local, copie `.env.example` para `.env` (o `.env` não entra no Git) e troque o placeholder só na sua máquina.
 3. Rode o build de novo.
 
-Sem essa variável, o build local e o de preview usam o placeholder `https://marktech.example` e avisam no terminal. O domínio final ainda não foi escolhido. Não coloque segredo nesse valor: é uma URL pública.
+O alvo é produção quando acontece qualquer um destes casos:
 
-Se `VERCEL_ENV=production` e `PUBLIC_SITE_URL` estiver vazio ou apontar para `marktech.example` (ou um subdomínio dele), o build para com erro. Uma origem HTTPS real, mesmo fictícia, passa. Preview da Vercel (`VERCEL_ENV=preview`) não entra nesse guard.
+- `VERCEL_ENV=production`, que a infraestrutura da Vercel define no build de produção.
+- `VERCEL_TARGET_ENV=production`.
+- Um processo ancestral foi chamado com `--prod` ou `--environment production`.
 
-Na Vercel, a variável pode ser configurada no projeto. Este repositório não cria essa configuração e não faz deploy.
+`vercel build --prod`, na máquina local, não define `VERCEL_ENV` nem `VERCEL_TARGET_ENV`. A CLI avisa que as variáveis de sistema não existem fora da Vercel. Ela define `VERCEL=1` e, se o arquivo existir, carrega `.vercel/.env.production.local`. O `prebuild` e o `astro.config` olham a linha de comando dos processos ancestrais para reconhecer `--prod`. Com o placeholder, esse build falha e não deixa um prebuild que `vercel deploy --prebuilt --prod` possa publicar. O deploy prebuilt em si não reconstrói o site.
+
+`npm run build` e `npm run dev` sem esses sinais continuam aceitando o placeholder. Preview (`VERCEL_ENV=preview`) também. Este repositório não faz o deploy.
 
 ## Como publicar um artigo novo
 

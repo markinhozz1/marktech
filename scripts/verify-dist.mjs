@@ -3,6 +3,7 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { isProductionTarget, productionSiteError } from './production-site.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -81,6 +82,7 @@ for (const file of htmlFiles) {
   const rel = path.relative(dist, file);
   const is404 = rel === '404.html';
 
+  if (!html.includes('name="author" content="Marcos"')) fail(`${rel} não declara Marcos como autor.`);
   if (!html.includes(notice)) fail(`${rel} não tem o aviso de site independente.`);
   if (!html.includes('lang="pt-BR"')) fail(`${rel} não declara pt-BR.`);
 
@@ -239,20 +241,13 @@ if (hsts?.value !== 'max-age=63072000; includeSubDomains') {
 if (process.env.PUBLIC_ADS_ENABLED !== 'true') {
   const withSlot = htmlFiles.filter((file) => readFileSync(file, 'utf8').includes('Espaço reservado para anúncio'));
   if (withSlot.length > 0) fail('AdSlot apareceu com a flag desligada.');
+  const styled = files.filter((file) => file.endsWith('.css') && readFileSync(file, 'utf8').includes('.ad-slot'));
+  if (styled.length > 0) fail('CSS de anúncio entrou no build com a flag desligada.');
 }
 
-if (process.env.VERCEL_ENV === 'production') {
-  const configured = (process.env.PUBLIC_SITE_URL ?? '').trim();
-  let blocked = !configured;
-  try {
-    const host = new URL(configured).hostname;
-    if (host === 'marktech.example' || host.endsWith('.marktech.example')) blocked = true;
-  } catch {
-    blocked = true;
-  }
-  if (blocked) {
-    fail('VERCEL_ENV=production com PUBLIC_SITE_URL vazio ou placeholder marktech.example.');
-  }
+if (isProductionTarget()) {
+  const siteError = productionSiteError();
+  if (siteError) fail(siteError);
   const published = [robots, sitemap, sitemapBody, ...htmlFiles.map((file) => readFileSync(file, 'utf8'))].join('\n');
   if (published.includes('marktech.example')) {
     fail('O dist de produção ainda contém o placeholder marktech.example.');

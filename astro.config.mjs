@@ -1,28 +1,20 @@
 import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { loadEnv } from 'vite';
+import { explicitSiteUrl, productionSiteError } from './scripts/production-site.mjs';
 
-const mode = process.env.NODE_ENV || 'development';
-const fileEnv = loadEnv(mode, process.cwd(), '');
+const fileEnv = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
+const adsEnabled = (process.env.PUBLIC_ADS_ENABLED ?? fileEnv.PUBLIC_ADS_ENABLED) === 'true';
+const configDir = path.dirname(fileURLToPath(import.meta.url));
+
 const placeholder = 'https://marktech.example';
-const explicitSite = (process.env.PUBLIC_SITE_URL ?? fileEnv.PUBLIC_SITE_URL ?? '').trim();
-const isProduction = process.env.VERCEL_ENV === 'production';
-
-function isPlaceholderSite(value) {
-  if (!value) return true;
-  try {
-    const url = new URL(value);
-    return url.hostname === 'marktech.example' || url.hostname.endsWith('.marktech.example');
-  } catch {
-    return true;
-  }
-}
-
-if (isProduction && isPlaceholderSite(explicitSite)) {
-  throw new Error(
-    'Build de produção recusado: PUBLIC_SITE_URL está vazio ou usa o placeholder marktech.example. Defina a origem HTTPS final. O domínio ainda pode ser escolhido; este guard só impede publicar o placeholder.',
-  );
+const explicitSite = explicitSiteUrl();
+const productionError = productionSiteError(explicitSite);
+if (productionError) {
+  throw new Error(productionError);
 }
 
 const rawSite = explicitSite || placeholder;
@@ -49,13 +41,9 @@ function resolveSite(value) {
 
 const site = resolveSite(rawSite);
 
-if (isProduction && !site.startsWith('https://')) {
-  throw new Error('Em produção, PUBLIC_SITE_URL precisa usar https.');
-}
-
 if (site === placeholder) {
   console.warn(
-    '\n[marktech] PUBLIC_SITE_URL não definido. Canonical, sitemap e JSON-LD usam o placeholder https://marktech.example. Com VERCEL_ENV=production esse build é recusado.\n',
+    '\n[marktech] PUBLIC_SITE_URL não definido. Canonical, sitemap e JSON-LD usam o placeholder https://marktech.example. Um alvo de produção recusa esse valor.\n',
   );
 }
 
@@ -83,5 +71,19 @@ export default defineConfig({
   vite: {
     server: { headers: previewHeaders },
     preview: { headers: previewHeaders },
+    plugins: adsEnabled
+      ? []
+      : [
+          {
+            name: 'marktech-omit-ad-slot',
+            enforce: 'pre',
+            resolveId(source) {
+              if (source.includes('AdSlotOn.astro')) {
+                return path.join(configDir, 'src/components/AdSlotOff.astro');
+              }
+              return null;
+            },
+          },
+        ],
   },
 });

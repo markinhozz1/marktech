@@ -1,5 +1,6 @@
 ---
 import { adsEnabled } from '../lib/site';
+import Markup from './AdSlotOn.astro';
 
 interface Props {
   slot: 'banner' | 'rectangle';
@@ -8,14 +9,4 @@ interface Props {
 const { slot, label } = Astro.props;
 ---
 
-{adsEnabled && (
-
-<div
-  class:list={['ad-slot', `ad-slot--${slot}`]}
-  data-marktech-slot={slot}
-  role="complementary"
-  aria-label={label}
->
-  <p>Espaço reservado para anúncio</p>
-</div>
-)}
+{adsEnabled && <Markup slot={slot} label={label} />}
